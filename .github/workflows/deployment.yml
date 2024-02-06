@@ -3,7 +3,7 @@ name: CI
 on: [push]
 
 env:
-  AWS_REGION : <"af-south-1">
+  AWS_REGION : <"eu-west-1">
 
 
 jobs:
