@@ -1,0 +1,47 @@
+image: node:14  # Use Node.js 14 as the base image
+
+pipelines:
+  branches:
+    main:  # Define pipeline for the main branch
+      - step:
+          name: Install Dependencies
+          caches:
+            - node
+          script:
+            - npm install  # Install Node.js dependencies
+            - npm install -g aws-cli  # Install AWS CLI for deployment
+            
+      - step:
+          name: Run Tests
+          caches:
+            - node
+          script:
+            - npm test  # Run Jest tests for database
+            
+      - step:
+          name: Deploy Infrastructure
+          caches:
+            - node
+          script:
+            - cd terraform  # Navigate to Terraform directory
+            - terraform init  # Initialize Terraform
+            - terraform validate  # Validate Terraform configuration
+            - terraform plan -out=tfplan  # Generate Terraform plan
+            # You might want to include confirmation steps here before applying changes
+            - terraform apply -auto-approve tfplan  # Apply Terraform changes
+            
+      - step:
+          name: Run Final Tests
+          caches:
+            - node
+          script:
+            # Run additional tests after infrastructure deployment if needed
+            - echo "Run additional tests here"
+            
+      - step:
+          name: Destroy Infrastructure
+          caches:
+            - node
+          script:
+            - cd terraform  # Navigate to Terraform directory
+            - terraform destroy -auto-approve  # Destroy Terraform resources after testing
