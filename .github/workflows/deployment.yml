@@ -16,9 +16,9 @@ jobs:
         run: |
           npm install
           npm install -g aws-cli
-          npm test
 
   test_database:
+    needs: install_dependencies
     runs-on: ubuntu-latest
     services:
       mysql:
