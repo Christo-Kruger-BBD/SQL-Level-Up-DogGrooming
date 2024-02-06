@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mysql:
-        image: mysql:8
+        image: mysql
         env:
           MYSQL_DATABASE: 'pipelines'
           MYSQL_ROOT_PASSWORD: 'secret'
