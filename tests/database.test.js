@@ -1,5 +1,4 @@
 const fs = require("fs");
-
 const mysql = require("mysql");
 
 // Function to create a MySQL connection pool
