@@ -5,8 +5,8 @@ function createPool() {
   return mysql.createPool({
     connectionLimit: 10,
     host: "localhost",
-    user: "user",
-    password: "password",
+    user: "test_user",
+    password: "test_user_password",
     database: "pipelines",
   });
 }
