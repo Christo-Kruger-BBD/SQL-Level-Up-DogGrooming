@@ -23,12 +23,12 @@ describe("MySQL Database Tests", () => {
     pool.getConnection((err, connection) => {
       if (err) throw err;
       
-      // // Execute the SQL script
-      // executeSqlScript('../database/sample.sql', connection, () => {
-      //   // Release the connection back to the pool
-      //   connection.release();
-      //   done();
-      // });
+      // Execute the SQL script
+      executeSqlScript('../database/sample.sql', connection, () => {
+        // Release the connection back to the pool
+        connection.release();
+        done();
+      });
     });
   });
 
