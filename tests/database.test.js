@@ -1,4 +1,6 @@
 const mysql = require('mysql');
+const fs = require('fs');
+
 
 // Function to create a MySQL connection pool
 function createPool() {
