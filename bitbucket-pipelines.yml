@@ -10,13 +10,14 @@ pipelines:
           script:
             - npm install  # Install Node.js dependencies
             - npm install -g aws-cli  # Install AWS CLI for deployment
+            - npm install --save-dev jest @jest/globals pg
             
       - step:
           name: Run Tests
           caches:
             - node
           script:
-            - npm test  # Run Jest tests for database
+            - npx jest   # Run Jest tests for database
             
       - step:
           name: Deploy Infrastructure
