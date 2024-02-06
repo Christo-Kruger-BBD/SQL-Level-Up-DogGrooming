@@ -1,20 +1,21 @@
-image: node:14
+image: 
 
 pipelines:
   default:
+    main:
     - step:
         name: Install dependencies
         script:
+          - sudo apt install -y docker.io
           - npm install
           - npm install -g aws-cli
+          
     - step:
         name: Set up test database
         script:
           - docker run --name test-db -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:latest  # Example command to start a MySQL database container
-          - sleep 30  # Wait for the database service to be fully initialized (adjust the sleep duration as needed)
-          - npm run migrate  # Apply database migrations (if applicable)
           - echo "Checking database connectivity..."
-          - echo "SELECT NOW();" | docker exec -i test-db mysql -uroot -pmy-secret-pw  # Execute a query to check connectivity
+          - echo "SELECT NOW();" | docker exec -i test-db mysql -uroot -p my-secret-pw  # Execute a query to check connectivity
           - echo "Database connection established."
 
     - step:
