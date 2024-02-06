@@ -30,7 +30,7 @@ jobs:
         image: mysql:8
         env:
           MYSQL_DATABASE: 'pipelines'
-          MYSQL_ROOT_PASSWORD: 'password'
+          MYSQL_ROOT_PASSWORD: 'secret'
           MYSQL_USER: 'user'
           MYSQL_PASSWORD: 'password'
         ports:
