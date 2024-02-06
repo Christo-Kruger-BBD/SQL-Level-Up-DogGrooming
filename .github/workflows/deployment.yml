@@ -41,6 +41,9 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
+      - name: Setup Database
+        run: |
+          mysql --protocol=tcp -h 127.0.0.1 -P 3306 -utest_user -ptest_user_password -e "$(cat $(find ./ -name sample.sql))"
       - name: Test Database
         run: npm test
 
