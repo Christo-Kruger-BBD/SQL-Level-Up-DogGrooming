@@ -1,0 +1,41 @@
+name: CI
+
+on: [push]
+
+jobs:
+  install_dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install dependencies
+        run: |
+          npm install
+          npm install -g aws-cli
+          npm test
+
+  test_database:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: 'pipelines'
+          MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+          MYSQL_USER: 'test_user'
+          MYSQL_PASSWORD: 'test_user_password'
+        ports:
+          - 3306:3306
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Test Database
+        run: npm test
