@@ -1,6 +1,6 @@
 name: CI
 
-on: [push]
+on: []
 
 env:
   AWS_REGION : <"eu-west-1">
@@ -26,14 +26,14 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mysql:
-        image: mysql:5.7
+        image: mysql:8
         env:
           MYSQL_DATABASE: 'pipelines'
           MYSQL_ROOT_PASSWORD: 'password'
           MYSQL_USER: 'user'
           MYSQL_PASSWORD: 'password'
         ports:
-          - 3306:3306
+          - 33306:3306
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -45,7 +45,7 @@ jobs:
 
       - name: Setup Database
         run: |
-          mysql --protocol=tcp -h 127.0.0.1 -P 3306 -uroot -ppassword -e "$(cat $(find ./ -name sample.sql))"
+          mysql --protocol=tcp -h localhost --port 33306 -uroot -ppassword -e "$(cat $(find ./ -name sample.sql))"
 
       - name: Test Database
         run: npm test
