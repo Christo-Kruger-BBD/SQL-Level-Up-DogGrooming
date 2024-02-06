@@ -1,4 +1,9 @@
-image: node:14  # Use Node.js 14 as the base image
+image:
+  name: hashicorp/terraform  # Use Terraform image
+  entrypoint:
+    - /bin/sh
+    - -c
+  shell: bash
 
 pipelines:
   branches:
