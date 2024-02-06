@@ -8,6 +8,7 @@ pipelines:
         script:
           - npm install
           - npm install -g aws-cli
+          - npm test
         services: 
           - mysql 
 
