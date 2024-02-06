@@ -4,10 +4,10 @@ const mysql = require("mysql");
 function createPool() {
   return mysql.createPool({
     connectionLimit: 10,
-    host: "localhost",
-    user: "root",
-    password: "password",
-    database: "test_db",
+    host: "127.0.0.1",
+    user: "test_user",
+    password: "test_user_password",
+    database: "pipelines",
   });
 }
 

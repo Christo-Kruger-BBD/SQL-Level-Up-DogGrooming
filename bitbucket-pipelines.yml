@@ -6,28 +6,17 @@ pipelines:
     - step:
         name: Install dependencies
         script:
-          - sudo apt install -y docker.io
           - npm install
           - npm install -g aws-cli
-          
-    - step:
-        name: Set up test database
-        script:
-          - docker run --name test-db -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:latest  # Example command to start a MySQL database container
-          - echo "Checking database connectivity..."
-          - echo "SELECT NOW();" | docker exec -i test-db mysql -uroot -p my-secret-pw  # Execute a query to check connectivity
-          - echo "Database connection established."
+        services: 
+          - mysql 
 
-    - step:
-        name: Run Jest Tests
-        script:
-          - # Run Jest tests using the test database connection
-    - step:
-        name: Deploy to AWS
-        deployment: production
-        script:
-          - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-          - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-          - aws configure set default.region $AWS_DEFAULT_REGION
-          - aws s3 sync . s3://your-bucket-name
-          - aws cloudformation deploy --template-file cloudformation.yml --stack-name your-stack-name --capabilities CAPABILITY_IAM
+definitions: 
+  services: 
+    mysql: 
+      image: mysql:5.7 
+      variables: 
+        MYSQL_DATABASE: 'pipelines'
+        MYSQL_RANDOM_ROOT_PASSWORD: 'yes' 
+        MYSQL_USER: 'test_user'
+        MYSQL_PASSWORD: 'test_user_password'
