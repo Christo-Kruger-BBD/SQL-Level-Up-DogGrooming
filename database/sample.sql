@@ -1,4 +1,4 @@
-USE sampleDB;
+USE pipelines;
 
   CREATE TABLE CustomerData(
   id INT,
