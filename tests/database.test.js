@@ -24,7 +24,7 @@ describe("MySQL Database Tests", () => {
       if (err) throw err;
       
       // Execute the SQL script
-      executeSqlScript('./sample.sql', connection, () => {
+      executeSqlScript('../database/sample.sql', connection, () => {
         // Release the connection back to the pool
         connection.release();
         done();
