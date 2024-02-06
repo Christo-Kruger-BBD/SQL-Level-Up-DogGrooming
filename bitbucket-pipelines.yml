@@ -13,13 +13,6 @@ pipelines:
             - npm install --save-dev jest @jest/globals pg
             
       - step:
-          name: Run Tests
-          caches:
-            - node
-          script:
-            - npx jest   # Run Jest tests for database
-            
-      - step:
           name: Deploy Infrastructure
           caches:
             - node
@@ -32,12 +25,11 @@ pipelines:
             - terraform apply -auto-approve tfplan  # Apply Terraform changes
             
       - step:
-          name: Run Final Tests
+          name: Run Tests
           caches:
             - node
           script:
-            # Run additional tests after infrastructure deployment if needed
-            - echo "Run additional tests here"
+            - npx jest   # Run Jest tests for database
             
       - step:
           name: Destroy Infrastructure
