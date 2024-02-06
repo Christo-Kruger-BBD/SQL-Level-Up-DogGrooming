@@ -53,8 +53,8 @@ describe("MySQL Database Tests", () => {
     });
   });
 
-  // let tableNames = [
-  //   "CustomerData",
+  let tableNames = [
+    "CustomerData" ];
   //   "Pets",
   //   "Appointment",
   //   "Payments",
@@ -62,16 +62,16 @@ describe("MySQL Database Tests", () => {
   //   "Employees",
   //   "EmployeeAssignments",
   // ];
-  // tableNames.forEach((table) => {
-  //   it("should retrieve data from the MySQL database", (done) => {
-  //     // Test retrieving data from the database
-  //     pool.query(`SELECT * FROM ${table}`, (err, results) => {
-  //       if (err) throw err;
-  //       expect(results.length).toBeGreaterThan(0);
-  //       done();
-  //     });
-  //   });
-  // });
+  tableNames.forEach((table) => {
+    it("should retrieve data from the MySQL database", (done) => {
+      // Test retrieving data from the database
+      pool.query(`SELECT * FROM ${table}`, (err, results) => {
+        if (err) throw err;
+        expect(results.length).toBeGreaterThan(0);
+        done();
+      });
+    });
+  });
 
   afterAll((done) => {
     // Close the connection pool after all tests are finished
