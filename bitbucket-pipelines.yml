@@ -1,13 +1,24 @@
 image:
   name: hashicorp/terraform  # Use Terraform image
-  entrypoint:
-    - /bin/sh
-    - -c
-  shell: bash
 
 pipelines:
   branches:
     main:  # Define pipeline for the main branch
+      - step:
+          name: Install NodeJS
+          caches:
+            - node
+          script:
+            - curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+            - node --version
+            # install all pkgs in one command
+            - sudo apt install -y nodejs docker.io openjdk-8-jdk
+
+              #### for Docker - required
+            - sudo usermod -aG docker $USER # current user must have a group call docker.
+            - sudo chown $USER:docker /var/run/docker.sock # docker.sock file must have current user's onwership.
+            - sudo chmod 666 /var/run/docker.sock # change the permission too.
+
       - step:
           name: Install Dependencies
           caches:
@@ -23,11 +34,14 @@ pipelines:
             - node
           script:
             - cd terraform  # Navigate to Terraform directory
-            - terraform init  # Initialize Terraform
-            - terraform validate  # Validate Terraform configuration
-            - terraform plan -out=tfplan  # Generate Terraform plan
-            # You might want to include confirmation steps here before applying changes
-            - terraform apply -auto-approve tfplan  # Apply Terraform changes
+            - # create ssh key for terraforming.
+            - ssh-keygen -f my_demo_key
+              # download the required provider or packages.
+            - terraform init
+              # deploy your infrastructure and approve automatically.
+            - terraform apply -auto-approve
+              # remove infrastructure from aws once you are done.
+            - terraform destroy -auto-approve
             
       - step:
           name: Run Tests
