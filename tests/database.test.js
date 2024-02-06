@@ -1,4 +1,4 @@
-import executeSqlScript from "./executeSql";
+const fs = require("fs");
 
 const mysql = require("mysql");
 
@@ -80,3 +80,17 @@ describe("MySQL Database Tests", () => {
     pool.end(done);
   });
 });
+
+
+function executeSqlScript(sqlScriptPath, connection, done) {
+  // Read SQL script file
+  fs.readFile(sqlScriptPath, 'utf8', (err, sqlScript) => {
+    if (err) throw err;
+    
+    // Execute SQL script
+    connection.query(sqlScript, (err) => {
+      if (err) throw err;
+      done();
+    });
+  });
+}
