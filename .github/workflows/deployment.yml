@@ -45,7 +45,9 @@ jobs:
           node-version: '14'
 
       - name: Test Database
-        run: npm test
+        run: |
+          npm install mysql
+          npm test
 
   AssumeRoleAndCallIdentity:
     needs: test_database
