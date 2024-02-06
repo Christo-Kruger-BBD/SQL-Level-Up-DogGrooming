@@ -30,8 +30,8 @@ jobs:
         env:
           MYSQL_DATABASE: 'pipelines'
           MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
-          MYSQL_USER: 'test_user'
-          MYSQL_PASSWORD: 'test_user_password'
+          MYSQL_USER: 'user'
+          MYSQL_PASSWORD: 'password'
         ports:
           - 3306:3306
     steps:
@@ -41,9 +41,11 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
+
       - name: Setup Database
         run: |
-          mysql --protocol=tcp -h 127.0.0.1 -P 3306 -utest_user -ptest_user_password -e "$(cat $(find ./ -name sample.sql))"
+          mysql --protocol=tcp -h 127.0.0.1 -P 3306 -uuser -ppassword -e "$(cat $(find ./ -name sample.sql))"
+
       - name: Test Database
         run: npm test
 
