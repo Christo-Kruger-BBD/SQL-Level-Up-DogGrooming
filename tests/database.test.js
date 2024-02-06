@@ -1,3 +1,5 @@
+import executeSqlScript from "./executeSql";
+
 const mysql = require("mysql");
 
 // Function to create a MySQL connection pool
@@ -18,14 +20,32 @@ describe("MySQL Database Tests", () => {
   beforeAll(() => {
     // Create a connection pool before running tests
     pool = createPool();
+
+    // Get a connection from the pool
+    pool.getConnection((err, connection) => {
+      if (err) throw err;
+      
+      // Execute the SQL script
+      executeSqlScript('./sample.sql', connection, () => {
+        // Release the connection back to the pool
+        connection.release();
+        done();
+      });
+    });
   });
 
-  afterAll((done) => {
-    // Close the connection pool after all tests are finished
-    pool.end(done);
-  });
 
   it("should connect to the MySQL database", (done) => {
+    // Test connection to the database
+    pool.getConnection((err, connection) => {
+      if (err) throw err;
+      expect(connection).toBeDefined();
+      connection.release();
+      done();
+    });
+  });
+
+  it("should set itself up", (done) => {
     // Test connection to the database
     pool.getConnection((err, connection) => {
       if (err) throw err;
@@ -53,5 +73,10 @@ describe("MySQL Database Tests", () => {
         done();
       });
     });
+  });
+
+  afterAll((done) => {
+    // Close the connection pool after all tests are finished
+    pool.end(done);
   });
 });
