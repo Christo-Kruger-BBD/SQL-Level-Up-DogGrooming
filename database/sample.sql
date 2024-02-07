@@ -1,6 +1,6 @@
 USE pipelines;
 
-  CREATE TABLE CustomerData(
+CREATE TABLE pipelines.CustomerData(
   id INT,
   name VARCHAR(100) NOT NULL,
   PRIMARY KEY(id),
