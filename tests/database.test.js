@@ -1,6 +1,8 @@
 const mysql = require('mysql');
 const fs = require('fs');
 
+const SECONDS = 1000;
+jest.setTimeout(1.5 * SECONDS)
 
 // Function to create a MySQL connection pool
 function createPool() {
