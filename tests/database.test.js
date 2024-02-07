@@ -28,7 +28,7 @@ describe("MySQL Database Tests", () => {
       if (err) throw err;
       
       // Execute the SQL script
-      executeSqlScript('../database/sample.sql', connection, () => {
+      executeSqlScript('database/sample.sql', connection, () => {
         // Release the connection back to the pool
         connection.release();
         done();
@@ -85,6 +85,9 @@ describe("MySQL Database Tests", () => {
 
 
 function executeSqlScript(sqlScriptPath, connection, done) {
+
+  const sqlScriptPath = path.join(__dirname, sqlScriptPath);
+
   // Read SQL script file
   fs.readFile(sqlScriptPath, 'utf8', (err, sqlScript) => {
     if (err) throw err;
