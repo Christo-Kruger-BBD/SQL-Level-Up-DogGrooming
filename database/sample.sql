@@ -7,6 +7,8 @@ CREATE TABLE pipelines.CustomerData(
   UNIQUE(name)
 );
 
+GO;
+
 INSERT INTO CustomerData (id, name) VALUES
 (1, 'John Smith'),
 (2, 'Alice Johnson'),
@@ -18,3 +20,5 @@ INSERT INTO CustomerData (id, name) VALUES
 (8, 'Olivia Taylor'),
 (9, 'Daniel Thomas'),
 (10, 'Emma Garcia');
+
+GO;
