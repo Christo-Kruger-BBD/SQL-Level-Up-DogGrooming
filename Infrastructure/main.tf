@@ -26,8 +26,8 @@ resource "aws_security_group" "example_sg" {
   description = "Example security group"
 
   ingress {
-    from_port   = 3306
-    to_port     = 3306
+    from_port   = 1433
+    to_port     = 1433
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -43,11 +43,12 @@ resource "aws_security_group" "example_sg" {
 
 
 resource "aws_db_instance" "default" {
-  allocated_storage = 10
-  engine = "mysql"
+  allocated_storage = 20
+  engine = "sqlserver-ex"
   instance_class = "db.t3.micro"
-  username = "foo"
-  password = "foobarbaz"
+  username = var.db-username
+  password = var.db_password
   skip_final_snapshot = true // required to destroy
   publicly_accessible= true
+  identifier = "dog-grooming"
 }
