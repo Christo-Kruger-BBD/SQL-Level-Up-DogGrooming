@@ -23,6 +23,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         
     - name: Terraform Init
+      working-directory: ./
       run: terraform init
     
     - name: Terraform Plan
