@@ -7,67 +7,26 @@ env:
 
 
 jobs:
-  install_dependencies:
+  deploy:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-      - name: Install dependencies
-        run: |
-          npm install
-          npm install -g aws-cli
-          npm install mysql2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-  test_database:
-    needs: install_dependencies
-    runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_DATABASE: 'pipelines'
-          MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
-          MYSQL_USER: 'test_user'
-          MYSQL_PASSWORD: 'test_user_password'
-        ports:
-          - 3306:3306
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      - name: Test Database
-        run: |
-          npm install mysql
-          npm test
-
-  AssumeRoleAndCallIdentity:
-    needs: test_database
-    permissions:
-      id-token: write # This is required for requesting the JWT
-      contents: read # This is required for actions/checkout
-    runs-on: ubuntu-latest
-    steps:
-      - name: Git clone the repository
-        uses: actions/checkout@v3
-      - name: configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v1.7.0
-        with:
-          role-to-assume: arn:aws:iam::263883060207:role/GitHubAction-AssumeRoleWithAction
-          #change to reflect your IAM role’s ARN
-          role-session-name: GitHub_to_AWS_via_FederatedOIDC
-          aws-region: ${{ env.AWS_REGION }}
-      # Hello from AWS: WhoAmI
-      - name: Sts GetCallerIdentity
-        run: |
-          aws sts get-caller-identity
-
-
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.1.0
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        
+    - name: Terraform Init
+      run: terraform init
+    
+    - name: Terraform Plan
+      run: terraform plan -out=tfplan
+    
+    - name: Terraform Apply
+      run: terraform apply -auto-approve tfplan
