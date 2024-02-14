@@ -40,14 +40,18 @@ jobs:
         terraform_version: 1.1.0
         
     - name: Terraform Init
-      #working-directory: Infrastructure
-      run: terraform init
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_working_dir: './Infrastructure'
+        tf_actions_version: 0.12.13
+        tf_actions_subcommand: 'init'
     
     - name: Terraform Plan
-      #working-directory: ./Infrastructure
-      run: |
-        ls
-        terraform plan -out=tfplan
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_working_dir: './Infrastructure'
+        tf_actions_version: 0.12.13
+        tf_actions_subcommand: 'plan'
         
     - name: Terraform Apply
       #working-directory: ./Infrastructure
