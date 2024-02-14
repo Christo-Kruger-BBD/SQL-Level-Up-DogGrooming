@@ -9,8 +9,8 @@ env:
   AWS_AMI_XXX: ${{ secrets.AWS_AMI_XXX }}                       # Unimplemented
   AWS_SG_XXX: ${{ secrets.AWS_SG_XXX }}                         # Unimplemented
   AWS_SUBNET_XXX: ${{ secrets.AWS_SUBNET_XXX }}                 # Unimplemented
-  TF_VAR_DB_USERNAME: ${{ secrets.TF_VAR_DB_USERNAME }}         # Unimplemented
-  TF_VAR_DB_PASSWORD: ${{ secrets.TF_VAR_DB_PASSWORD }}         # Unimplemented
+  TF_VAR_DB_USERNAME: ${{ secrets.DB_NAME }}
+  TF_VAR_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
   FW_HOST: ${{ secrets.DB_SERVER_HOST_NAME }}
   FW_NAME: ${{ secrets.DB_NAME }}
   FW_USER: ${{ secrets.DB_USERNAME }}
@@ -38,7 +38,9 @@ jobs:
     
     - name: Terraform Plan
       working-directory: ./Infrastructure
-      run: terraform plan -out=tfplan
+      run: |
+        terraform import github_actions_secret.example_secret repository/secret_name
+        terraform plan -out=tfplan
     
     - name: Terraform Apply
       working-directory: ./Infrastructure
