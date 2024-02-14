@@ -28,6 +28,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      
+    - name: Debug
+      run: find Infrastructure
+
     - name: Configure AWS CLI
       uses: aws-actions/configure-aws-credentials@v4
       with:
