@@ -15,11 +15,6 @@ resource "aws_subnet" "subnet2" {
   cidr_block = "10.0.128.0/17"
 }
 
-provider "aws" {
-  region = "eu-west-1"
-  profile = "AdministratorAccess-263883060207"
-}
-
 # Create a security group
 resource "aws_security_group" "example_sg" {
   name        = "example-sg"
