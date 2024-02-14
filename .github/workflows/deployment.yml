@@ -4,6 +4,19 @@ on: [push]
 
 env:
   AWS_REGION : "eu-west-1"
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}           # Unimplemented
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}   # Unimplemented
+  AWS_AMI_XXX: ${{ secrets.AWS_AMI_XXX }}                       # Unimplemented
+  AWS_SG_XXX: ${{ secrets.AWS_SG_XXX }}                         # Unimplemented
+  AWS_SUBNET_XXX: ${{ secrets.AWS_SUBNET_XXX }}                 # Unimplemented
+  TF_VAR_DB_USERNAME: ${{ secrets.TF_VAR_DB_USERNAME }}         # Unimplemented
+  TF_VAR_DB_PASSWORD: ${{ secrets.TF_VAR_DB_PASSWORD }}         # Unimplemented
+  FW_HOST: ${{ secrets.DB_SERVER_HOST_NAME }}
+  FW_NAME: ${{ secrets.DB_NAME }}
+  FW_USER: ${{ secrets.DB_USERNAME }}
+  FW_PASS: ${{ secrets.DB_PASSWORD }}
+
+
 
 
 jobs:
@@ -18,9 +31,6 @@ jobs:
       uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: 1.1.0
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         
     - name: Terraform Init
       working-directory: ./Infrastructure
@@ -32,4 +42,23 @@ jobs:
     
     - name: Terraform Apply
       working-directory: ./Infrastructure
-      run: terraform apply -auto-approve tfplan
+      run: terraform apply -auto-approve tfplan -var="db_username=${{ env.TF_VAR_DB_USERNAME }}" -var="db_password==${{ env.TF_VAR_DB_PASSWORD }}"
+
+    - name: Configure AWS CLI
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+        aws-region: your-region
+
+    - name: Launch AWS Server
+      run: |
+        # Use AWS CLI or SDK to launch the server
+        # Example:
+        aws ec2 run-instances --image-id ${{ env.AMI-XXX }} --count 1 --instance-type t2.micro --key-name my-key-pair --security-group-ids ${{ env.SG-XXX }} --subnet-id ${{ env.SUBNET-XXX }}
+
+    - name: Run Flyway Migration
+      run: |
+        # Run Flyway migration commands
+        # Example:
+        flyway -url=jdbc:postgresql://${{ env.FW_HOST }}:${{ env.FW_PORT }}/${{ env.FW_NAME }} -user=${{ env.FW_USER }} -password=${{ env.FW_PASS }} migrate

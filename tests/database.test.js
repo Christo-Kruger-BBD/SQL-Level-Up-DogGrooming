@@ -4,6 +4,11 @@ const fs = require('fs');
 const SECONDS = 1000;
 jest.setTimeout(1.5 * SECONDS)
 
+const dbHost = process.env.DB_SERVER_HOST_NAME;
+const dbName = process.env.DB_NAME;
+const dbUser = process.env.DB_USERNAME;
+const dbPassword = process.env.DB_PASSWORD;
+
 // Function to create a MySQL connection pool
 function createPool() {
   return mysql.createPool({
