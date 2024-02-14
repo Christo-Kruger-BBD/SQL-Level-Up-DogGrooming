@@ -33,6 +33,9 @@ jobs:
       with:
         role-to-assume: ${{ env.AWS_IAM_ROLE_ARN }}
         aws-region: ${{ env.AWS_REGION }}
+    
+    - name: Debug
+      run: ls
 
     - name: Set up Terraformd
       uses: hashicorp/setup-terraform@v1
