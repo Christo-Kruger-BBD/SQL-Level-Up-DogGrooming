@@ -49,9 +49,7 @@ jobs:
         
     - name: Terraform Init
       working-directory: ./Infrastructure
-      run: |
-        aws sts get-caller-identity
-        terraform init
+      run: terraform init
     
     - name: Terraform Plan
       working-directory: ./Infrastructure
