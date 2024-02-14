@@ -24,7 +24,7 @@ jobs:
           -url=jdbc:sqlserver://"${{secrets.DB_SERVER_HOST_NAME}}";databaseName="${{secrets.DB_NAME}}"
           -user="${{ secrets.DB_USERNAME }}"
           -password="${{ secrets.DB_PASSWORD }}"
-           clean migrate
+          -cleanDisabled=false clean migrate
 
   install_dependencies:
     runs-on: ubuntu-latest
