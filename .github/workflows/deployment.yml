@@ -45,9 +45,7 @@ jobs:
     
     - name: Terraform Plan
       #working-directory: ./Infrastructure
-      run: |
-        terraform import github_actions_secret.example_secret repository/secret_name
-        terraform plan -out=tfplan
+      run: terraform plan -out=tfplan
     
     - name: Terraform Apply
       #working-directory: ./Infrastructure
