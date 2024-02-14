@@ -7,6 +7,25 @@ env:
 
 
 jobs:
+
+  Continuous-Integration-Build:
+    name: Continuous Integration Build
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.0.0
+
+      - name: Continuous Integration Flyway Clean Migrate
+        run: >-
+          docker run --rm
+          --volume ${{ github.workspace }}/migrations:/flyway/sql:ro
+          redgate/flyway
+          -url=jdbc:sqlserver://"${DB_SERVER_HOST_NAME}";databaseName"${DB_NAME}"
+          -user="${{ secrets.DB_USERNAME }}"
+          -password="${{ secrets.DB_PASSWORD }}"
+          -cleanDisabled=false clean migrate
+
   install_dependencies:
     runs-on: ubuntu-latest
     steps:
