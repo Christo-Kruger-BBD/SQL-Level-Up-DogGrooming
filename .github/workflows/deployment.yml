@@ -44,13 +44,13 @@ jobs:
       run: terraform init
     
     - name: Terraform Plan
-      working-directory: ./Infrastructure
+      #working-directory: ./Infrastructure
       run: |
         terraform import github_actions_secret.example_secret repository/secret_name
         terraform plan -out=tfplan
     
     - name: Terraform Apply
-      working-directory: ./Infrastructure
+      #working-directory: ./Infrastructure
       run: terraform apply -auto-approve tfplan -var="db_username=${{ env.TF_VAR_db_username }}" -var="db_password==${{ env.TF_VAR_db_password }}"
 
   AmazonWebServices:
