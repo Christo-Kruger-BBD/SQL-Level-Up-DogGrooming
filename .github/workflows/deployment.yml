@@ -45,8 +45,10 @@ jobs:
     
     - name: Terraform Plan
       #working-directory: ./Infrastructure
-      run: terraform plan -out=tfplan
-    
+      run: |
+        ls
+        terraform plan -out=tfplan
+        
     - name: Terraform Apply
       #working-directory: ./Infrastructure
       run: terraform apply -auto-approve tfplan -var="db_username=${{ env.TF_VAR_db_username }}" -var="db_password==${{ env.TF_VAR_db_password }}"
