@@ -16,11 +16,8 @@ env:
   FW_USER: ${{ secrets.DB_USERNAME }}
   FW_PASS: ${{ secrets.DB_PASSWORD }}
 
-
-
-
 jobs:
-  deploy:
+  InfrastructureAsCode:
     runs-on: ubuntu-latest
     
     steps:
@@ -34,7 +31,7 @@ jobs:
         
     - name: Terraform Init
       working-directory: ./Infrastructure
-      run: terraform init
+      run: terraform init -backend-config="access_key=${{ env.AWS_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ env.AWS_SECRET_ACCESS_KEY }}"
     
     - name: Terraform Plan
       working-directory: ./Infrastructure
@@ -46,21 +43,39 @@ jobs:
       working-directory: ./Infrastructure
       run: terraform apply -auto-approve tfplan -var="db_username=${{ env.TF_VAR_db_username }}" -var="db_password==${{ env.TF_VAR_db_password }}"
 
+  AmazonWebServices:
+    needs: InfrastructureAsCode
+    runs-on: ubuntu-latest
+    
+    steps:
     - name: Configure AWS CLI
       uses: aws-actions/configure-aws-credentials@v2
       with:
         aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
         aws-region: your-region
-
+  
     - name: Launch AWS Server
       run: |
         # Use AWS CLI or SDK to launch the server
         # Example:
         aws ec2 run-instances --image-id ${{ env.AMI-XXX }} --count 1 --instance-type t2.micro --key-name my-key-pair --security-group-ids ${{ env.SG-XXX }} --subnet-id ${{ env.SUBNET-XXX }}
 
+  FlywayMigration:
+    needs: AmazonWebServices
+    runs-on: ubuntu-latest  
+    steps:
     - name: Run Flyway Migration
       run: |
         # Run Flyway migration commands
         # Example:
         flyway -url=jdbc:postgresql://${{ env.FW_HOST }}:${{ env.FW_PORT }}/${{ env.FW_NAME }} -user=${{ env.FW_USER }} -password=${{ env.FW_PASS }} migrate
+
+  UnitTesting:
+    needs: FlywayMigration
+    runs-on: ubuntu-latest  
+    steps:
+    - name: Test Database
+      run: |
+        npm i
+        npm test
