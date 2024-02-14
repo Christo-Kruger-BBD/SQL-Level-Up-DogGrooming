@@ -19,7 +19,7 @@ jobs:
       - name: Continuous Integration Flyway Clean Migrate
         run: >-
           docker run --rm
-          --volume ${{ github.workspace }}/migrations:/flyway/sql:ro
+          --volume ${{ github.workspace }}/database/migrations:/flyway/sql:ro
           redgate/flyway
           -url=jdbc:sqlserver://"${{secrets.DB_SERVER_HOST_NAME}}";databaseName="${{secrets.DB_NAME}}"
           -user="${{ secrets.DB_USERNAME }}"
