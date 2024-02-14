@@ -16,7 +16,9 @@ env:
   FW_NAME: ${{ secrets.DB_NAME }}
   FW_USER: ${{ secrets.DB_USERNAME }}
   FW_PASS: ${{ secrets.DB_PASSWORD }}
-  
+
+permissions:
+  id-token: write
 
 jobs:
 
