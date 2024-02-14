@@ -34,14 +34,6 @@ jobs:
         role-to-assume: ${{ env.AWS_IAM_ROLE_ARN }}
         aws-region: ${{ env.AWS_REGION }}
 
-  InfrastructureAsCode:
-    needs: ConfigureAWS
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
     - name: Set up Terraformd
       uses: hashicorp/setup-terraform@v1
       with:
@@ -62,7 +54,7 @@ jobs:
       run: terraform apply -auto-approve tfplan -var="db_username=${{ env.TF_VAR_db_username }}" -var="db_password==${{ env.TF_VAR_db_password }}"
 
   AmazonWebServices:
-    needs: InfrastructureAsCode
+    #needs: InfrastructureAsCode
     runs-on: ubuntu-latest
     
     steps:
