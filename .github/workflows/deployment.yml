@@ -51,7 +51,7 @@ jobs:
       working-directory: ./Infrastructure
       run: |
         aws sts get-caller-identity
-        terraform init #-backend-config="access_key=${{ env.AWS_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ env.AWS_SECRET_ACCESS_KEY }}"
+        terraform init
     
     - name: Terraform Plan
       working-directory: ./Infrastructure
