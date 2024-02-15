@@ -11,12 +11,11 @@ DB_PASSWORD = "1234"
 def db_connection():
     # Establish a connection to the database
     conn = pymssql.connect(
-        server=DB_SERVER,
-        user=DB_USER,
-        password=DB_PASSWORD,
-        database=DB_NAME,
-        as_dict=True
-    )  
+        f"SERVER={DB_SERVER};"
+        f"DATABASE={DB_NAME};"
+        f"UID={DB_USER};"
+        f"PWD={DB_PASSWORD};"
+    )
     yield conn
     # Close the connection after all tests are done
     conn.close()
