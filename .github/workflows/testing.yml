@@ -33,7 +33,7 @@ jobs:
 
       - name: Run tests JS
         run: |
-          sudo docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=GsM%XIj*i)gUR3wI0" \
+          sudo docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=" \
           -p 1433:1433 --name sql1 --hostname sql1 \
           -d \
           mcr.microsoft.com/mssql/server:2022-latest
