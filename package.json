@@ -6,5 +6,8 @@
   },
   "scripts": {
     "test": "npx jest"
+  },
+  "dependencies": {
+    "mssql": "^10.0.2"
   }
 }

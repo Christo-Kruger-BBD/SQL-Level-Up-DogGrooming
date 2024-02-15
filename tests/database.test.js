@@ -27,15 +27,10 @@ describe("MSSQL Database Tests", () => {
   let request;
   beforeAll((done) => {
     // Create a connection pool before running tests
-    mssql.connect(config, function (err) {
-      // Create Request object to perform
-      // query operation
-      request = new mssql.Request();
-
+    const pool = new mssql.connect(config, function (err) {
       // Query to the database and get the records
       executeSqlScript(
         "../database/migrations/V20240208__Init_Setup.sql",
-        request,
         done
       );
     });
@@ -71,19 +66,22 @@ describe("MSSQL Database Tests", () => {
 
   afterAll((done) => {
     // Close the connection pool after all tests are finished
-    request.close();
+    
     done();
   });
 });
 
-function executeSqlScript(sqlScriptPath, request, done) {
+ function executeSqlScript(sqlScriptPath, done) {
   let sqlScriptFilePath = path.join(__dirname, sqlScriptPath);
 
   // Read SQL script file
-  fs.readFile(sqlScriptFilePath, "utf8", (err, sqlScript) => {
+  fs.readFile(sqlScriptFilePath, "utf8", async (err, sqlScript) => {
     if (err) throw err;
 
-    request.query(sqlScript, function (err, records) {
+
+    const result = await mssql.query`${sqlScript}`
+
+    new mssql.query(sqlScript, function (err, records) {
       if (err) console.log(err);
 
       // Send records as a response
