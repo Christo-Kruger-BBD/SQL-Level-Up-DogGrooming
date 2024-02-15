@@ -25,15 +25,16 @@ const config = {
 describe("MSSQL Database Tests", () => {
   
   let request;
-  beforeAll((done) => {
+  beforeAll(async (done) => {
     // Create a connection pool before running tests
-    const pool = new mssql.connect(config, function (err) {
+    const pool = await mssql.connect(config, function (err) {
       // Query to the database and get the records
-      executeSqlScript(
-        "../database/migrations/V20240208__Init_Setup.sql",
-        done
-      );
     });
+
+    executeSqlScript(
+      "../database/migrations/V20240208__Init_Setup.sql",
+      done
+    );
   });
 
   it("should connect to the MSSQL database", (done) => {
@@ -73,13 +74,23 @@ describe("MSSQL Database Tests", () => {
 
  function executeSqlScript(sqlScriptPath, done) {
   let sqlScriptFilePath = path.join(__dirname, sqlScriptPath);
-
+  const config = {
+    user: dbUser,
+    password: dbPassword,
+    server: dbHost,
+    database: dbName,
+    options: {
+      trustServerCertificate: true,
+    },
+  };
+  
   // Read SQL script file
   fs.readFile(sqlScriptFilePath, "utf8", async (err, sqlScript) => {
     if (err) throw err;
 
+    await mssql.connect(config);
 
-    const result = await mssql.query`${sqlScript}`
+    const result = await mssql.query(sqlScript);
 
     new mssql.query(sqlScript, function (err, records) {
       if (err) console.log(err);
