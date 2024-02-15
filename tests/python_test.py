@@ -76,6 +76,7 @@ def test_data_in_all_tables(db_connection):
     execute_sql_script(conn, sql_script_path)
 
     for table in tables:
+        cursor = db_connection.cursor()
 
     # Execute query to count the number of tables
         cursor.execute("SELECT COUNT(*) FROM " +  table)
@@ -86,8 +87,8 @@ def test_data_in_all_tables(db_connection):
         # Check if there are 7 tables
         assert num_tables > 0, f"Expected data in table {table}, but found none"
 
-    # Close the cursor
-    cursor.close()
+        # Close the cursor
+        cursor.close()
 
 def test_table_views(db_connection):
     # Cursor to execute SQL queries
