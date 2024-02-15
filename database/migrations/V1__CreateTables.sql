@@ -15,7 +15,6 @@ CREATE TABLE Employee_Data (
     Email VARCHAR(255)
 );
 
-
 CREATE TABLE Pets (
     PetID INTEGER PRIMARY KEY,
     CustomerID INTEGER, --FK
