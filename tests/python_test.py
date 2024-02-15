@@ -135,7 +135,7 @@ def test_table_views(db_connection):
     execute_sql_script(conn, sql_script_path)
 
     funcs = {
-        50: ['DECLARE @TotalPayment DECIMAL(10, 2);', 'SET @TotalPayment = dbo.calculate_total_payment(1);', 'SELECT @TotalPayment AS TotalPayment;'],
+        50: ['DECLARE @TotalPayment DECIMAL(10, 2); SET @TotalPayment = dbo.calculate_total_payment(1); SELECT @TotalPayment AS TotalPayment;'],
         'Michael Johnson': ['SELECT * FROM dbo.get_appointments_for_customer_function(1);']
     }
 
