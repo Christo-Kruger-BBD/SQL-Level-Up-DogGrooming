@@ -47,9 +47,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Run tests JS
+      - name: Run tests PY
         run: |
-          sudo docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=GsM%XIj*i)gUR3wI0" \
+          sudo docker run -e "ACCEPT_EULA=Y" \
           -p 1433:1433 --name sql1 --hostname sql1 \
           -d \
           mcr.microsoft.com/mssql/server:2022-latest
