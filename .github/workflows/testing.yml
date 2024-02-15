@@ -38,7 +38,7 @@ jobs:
           sudo docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=ASD123!@#" \
           -p 1433:1433 --restart=always --name sql1 --hostname sql1 \
           -d \
-          mcr.microsoft.com/mssql/server:2022-latest
+          mcr.microsoft.com/mssql/server:2018-latest
           sudo docker logs sql1 --follow
           npm test
 
