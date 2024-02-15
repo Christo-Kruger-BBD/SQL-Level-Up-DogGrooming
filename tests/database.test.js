@@ -11,32 +11,33 @@ const dbUser = process.env.DB_USERNAME;
 const dbPassword = process.env.DB_PASSWORD;
 
 // Function to create a MSSQL connection pool
-function getConfig() {
-  return {
-    user: dbUser,
-    password: dbPassword,
-    server: dbHost,
-    database: dbName,
-    options: {
-      trustServerCertificate: true,
-    },
-  };
-}
+const config = {
+  user: dbUser,
+  password: dbPassword,
+  server: dbHost,
+  database: dbName,
+  options: {
+    trustServerCertificate: true,
+  },
+};
 
 // Test suite for MSSQL database interactions
 describe("MSSQL Database Tests", () => {
-  let pool;
-
+  
+  let request;
   beforeAll((done) => {
     // Create a connection pool before running tests
-    config = getConfig();
     mssql.connect(config, function (err) {
       // Create Request object to perform
       // query operation
-      let request = new mssql.Request();
+      request = new mssql.Request();
 
       // Query to the database and get the records
-      executeSqlScript('../database/migrations/V20240208__Init_Setup.sql', request, done);
+      executeSqlScript(
+        "../database/migrations/V20240208__Init_Setup.sql",
+        request,
+        done
+      );
     });
   });
 
@@ -70,7 +71,7 @@ describe("MSSQL Database Tests", () => {
 
   afterAll((done) => {
     // Close the connection pool after all tests are finished
-    pool.close();
+    request.close();
     done();
   });
 });
