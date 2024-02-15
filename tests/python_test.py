@@ -133,6 +133,14 @@ def test_table_views(db_connection):
 
     print('VIEW TEST PASSED')
 
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    sql_script_path = os.path.join(current_dir, '../database/migrations/V6__TableFunctions.sql')
+    execute_sql_script(conn, sql_script_path)
+
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    sql_script_path = os.path.join(current_dir, '../database/migrations/V7__TableFunctions2.sql')
+    execute_sql_script(conn, sql_script_path)
+
     funcs = {
         'DECLARE @TotalPayment DECIMAL(10, 2); SET @TotalPayment = dbo.calculate_total_payment(1); SELECT @TotalPayment AS TotalPayment;': 50,
         'SELECT * FROM dbo.get_appointments_for_customer_function(1);': 'Michael Johnson'
