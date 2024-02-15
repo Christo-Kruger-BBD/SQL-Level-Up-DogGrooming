@@ -80,6 +80,7 @@ describe("MSSQL Database Tests", () => {
     database: dbName,
     options: {
       trustServerCertificate: true,
+      encrypt: false
     },
   };
   
