@@ -5,7 +5,7 @@ const path = require("path");
 const SECONDS = 1000;
 jest.setTimeout(5 * SECONDS);
 
-const dbName = "sql1";
+const dbName = "sql2";
 const dbUser = "sa";
 const dbPassword = "yourStrong(%)Password";
 

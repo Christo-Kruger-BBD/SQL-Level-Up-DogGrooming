@@ -3,7 +3,7 @@ import pyodbc
 
 # Database connection parameters
 DB_SERVER = "127.0.0.1"
-DB_NAME = "sql1"
+DB_NAME = "sql2"
 DB_USER = "sa"
 DB_PASSWORD = r"yourStrong(%)Password"
 
