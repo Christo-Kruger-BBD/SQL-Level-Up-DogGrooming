@@ -17,6 +17,7 @@ env:
   FW_NAME: ${{ secrets.DB_NAME }}
   FW_USER: ${{ secrets.DB_USERNAME }}
   FW_PASS: ${{ secrets.DB_PASSWORD }}
+  FW_URL: ${{ secrets.DB_URL }}
 
 permissions:
   id-token: write
@@ -25,18 +26,16 @@ permissions:
 jobs:
 
   FlywayMigration:
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest
     steps:
-    - name: Continuous Integration Flyway Clean Migrate
-      run: >-
-        docker run --rm
-        --volume ${{ github.workspace }}/database/migrations:/flyway/sql:ro
-        redgate/flyway
-        -licenseKey="${{ secrets.FLYWAY_LICENSE_KEY }}"
-        -url="${{ secrets.DB_URL }}"
-        -user="${{ secrets.DB_USERNAME }}"
-        -password="${{ secrets.DB_PASSWORD }}"
-        -cleanDisabled=false clean migrate
+      - uses: actions/checkout@v2
+      - uses: joshuaavalon/flyway-action@v3.0.0
+        with:
+          url: ${{ env.FW_URL }}
+          user: ${{ env.FW_USER}}
+          password: ${{ env.FW_PASS }}
+          locations: filesystem:./database/migrations
+      - run: echo 'testing'
 
   ConfigureAwsAndTerraform:
     needs: FlywayMigration
