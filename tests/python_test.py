@@ -2,10 +2,10 @@ import pytest
 import pyodbc
 
 # Database connection parameters
-DB_SERVER = "localhost"
+DB_SERVER = "127.0.0.1"
 DB_NAME = "sql1"
 DB_USER = "sa"
-DB_PASSWORD = r"GsM%XIj*i)gUR3wI0"
+DB_PASSWORD = r"yourStrong(!)Password"
 
 @pytest.fixture(scope="module")
 def db_connection():
