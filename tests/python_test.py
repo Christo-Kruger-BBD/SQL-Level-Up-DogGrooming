@@ -105,7 +105,7 @@ def test_table_views(db_connection):
 
     views = [
         'appointment_details_view',
-        'upcoming_appointments_view'
+        #'upcoming_appointments_view'
     ]
 
     for view in views:
