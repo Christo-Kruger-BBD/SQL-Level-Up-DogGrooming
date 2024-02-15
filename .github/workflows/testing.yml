@@ -43,5 +43,5 @@ jobs:
           -d \
           mcr.microsoft.com/mssql/server:2022-latest
           pip install pytest
-          pip install pyodbc
+          pip install pymssql
           pytest tests/

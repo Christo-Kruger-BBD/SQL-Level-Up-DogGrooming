@@ -1,5 +1,5 @@
 import pytest
-import pyodbc
+import pymssql
 
 # Database connection parameters
 DB_SERVER = "localhost"
