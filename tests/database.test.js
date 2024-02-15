@@ -5,10 +5,10 @@ const path = require("path");
 const SECONDS = 1000;
 jest.setTimeout(1.5 * SECONDS);
 
-const dbHost = process.env.DB_SERVER_HOST_NAME;
-const dbName = process.env.DB_NAME;
-const dbUser = process.env.DB_USERNAME;
-const dbPassword = process.env.DB_PASSWORD;
+const dbHost = process.env.FW_HOST;
+const dbName = process.env.FW_NAME;
+const dbUser = process.env.FW_USER;
+const dbPassword = process.env.FW_PASS;
 
 // Function to create a MSSQL connection pool
 const config = {
