@@ -5,15 +5,15 @@ const path = require("path");
 const SECONDS = 1000;
 jest.setTimeout(5 * SECONDS);
 
-const dbName = 'sql1';
-const dbUser = 'admin';
-const dbPassword = '1234';
+const dbName = "sql1";
+const dbUser = "admin";
+const dbPassword = "1234";
 
 // Function to create a MSSQL connection pool
 const config = {
   user: dbUser,
   password: dbPassword,
-  server: 'localhost',
+  server: "localhost",
   database: dbName,
   options: {
     trustServerCertificate: true,
@@ -22,7 +22,6 @@ const config = {
 
 // Test suite for MSSQL database interactions
 describe("MSSQL Database Tests", () => {
-  
   let request;
   beforeAll(async (done) => {
     // Create a connection pool before running tests
@@ -30,10 +29,7 @@ describe("MSSQL Database Tests", () => {
     //   // Query to the database and get the records
     // });
 
-    executeSqlScript(
-      "../database/migrations/V20240208__Init_Setup.sql",
-      done
-    );
+    executeSqlScript("../database/migrations/V20240208__Init_Setup.sql", done);
   });
 
   it("should connect to the MSSQL database", (done) => {
@@ -66,41 +62,41 @@ describe("MSSQL Database Tests", () => {
 
   afterAll((done) => {
     // Close the connection pool after all tests are finished
-    
+
     done();
   });
 });
 
- function executeSqlScript(sqlScriptPath, done) {
+function executeSqlScript(sqlScriptPath, done) {
   let sqlScriptFilePath = path.join(__dirname, sqlScriptPath);
   const config = {
     user: dbUser,
     password: dbPassword,
-    server: 'localhost',
+    server: "localhost",
     database: dbName,
     options: {
       database: dbName,
       trustServerCertificate: true,
-      encrypt: false
+      encrypt: false,
     },
   };
-  
+
   // Read SQL script file
   fs.readFile(sqlScriptFilePath, "utf8", async (err, sqlScript) => {
     if (err) throw err;
 
-    await mssql.connect(config);
+    mssql.connect(config).then(async function () {
+      const result = await mssql.query(sqlScript);
 
-    const result = await mssql.query(sqlScript);
+      new mssql.query(sqlScript, function (err, records) {
+        if (err) console.log(err);
 
-    new mssql.query(sqlScript, function (err, records) {
-      if (err) console.log(err);
+        // Send records as a response
+        // to browser
+        //res.send(records);
 
-      // Send records as a response
-      // to browser
-      //res.send(records);
-
-      done();
+        done();
+      });
     });
   });
 }
