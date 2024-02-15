@@ -1,4 +1,3 @@
--- Create tables
 CREATE TABLE Customer_Data (
     CustomerID INTEGER PRIMARY KEY,
     Name VARCHAR(255),
@@ -17,7 +16,7 @@ CREATE TABLE Employee_Data (
 
 CREATE TABLE Pets (
     PetID INTEGER PRIMARY KEY,
-    CustomerID INTEGER, --FK
+    CustomerID INTEGER,
     Name VARCHAR(255),
     Breed VARCHAR(255),
     Size VARCHAR(255),
@@ -27,9 +26,9 @@ CREATE TABLE Pets (
 
 CREATE TABLE Appointment (
     AppointmentID INTEGER PRIMARY KEY,
-    CustomerID INTEGER, --FK
-    PetID INTEGER, --FK
-    EmployeeID INTEGER, --FK
+    CustomerID INTEGER,
+    PetID INTEGER,
+    EmployeeID INTEGER,
     DateTime DATETIME,
     ServiceID INTEGER,
 	FOREIGN KEY (CustomerID) REFERENCES Customer_Data(CustomerID),
@@ -39,7 +38,7 @@ CREATE TABLE Appointment (
 
 CREATE TABLE Payments (
     PaymentID INTEGER PRIMARY KEY,
-    AppointmentID INTEGER, --FK
+    AppointmentID INTEGER,
     Amount DECIMAL,
     DateIssued DATE,
     Status VARCHAR(255),
@@ -54,8 +53,8 @@ CREATE TABLE Types_of_Service (
 );
 
 CREATE TABLE Appointment_Services (
-    AppointmentID INTEGER, --FK
-    ServiceID INTEGER, --FK
+    AppointmentID INTEGER,
+    ServiceID INTEGER,
 	FOREIGN KEY (AppointmentID) REFERENCES Appointment(AppointmentID),
 	FOREIGN KEY (ServiceID) REFERENCES Types_of_Service(ServiceID)
 );

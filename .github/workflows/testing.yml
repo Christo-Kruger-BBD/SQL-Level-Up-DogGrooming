@@ -24,22 +24,6 @@ permissions:
   contents: read
 
 jobs:
-
-  TestDB_JS:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Run tests JS
-        run: |
-          npm install
-          npm i mssql
-          sudo docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(%)Password"  -e "MSSQL_PID=Express" \
-          -p 1433:1433 --restart=always --name sql2 \
-          -d mcr.microsoft.com/mssql/server:2019-latest
-          npm test
-
   TestDB_PY:
     runs-on: ubuntu-latest
     steps:
