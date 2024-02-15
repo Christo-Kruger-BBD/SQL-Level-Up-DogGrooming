@@ -29,10 +29,6 @@ def db_connection(request):
         f"PWD={DB_PASSWORD};"
     )
 
-    # Execute SQL script before each test
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    sql_script_path = os.path.join(current_dir, '../database/migrations/V1__CreateTables.sql')
-    execute_sql_script(conn, sql_script_path)
 
     yield conn
 
@@ -40,6 +36,19 @@ def db_connection(request):
     conn.close()
 
 def test_database_connection(db_connection):
+    # Execute SQL script before each test
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    sql_script_path = os.path.join(current_dir, '../database/migrations/V1__CreateTables.sql')
+    execute_sql_script(conn, sql_script_path)
+
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    sql_script_path = os.path.join(current_dir, '../database/migrations/V2__PopulateTables.sql')
+    execute_sql_script(conn, sql_script_path)
+
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    sql_script_path = os.path.join(current_dir, '../database/migrations/V3__TableMethods.sql')
+    execute_sql_script(conn, sql_script_path)
+
     # Check if the connection is alive
     assert db_connection is not None, "Database connection is not established"
 
@@ -55,6 +64,35 @@ def test_number_of_tables(db_connection):
 
     # Check if there are 7 tables
     assert num_tables == 7, f"Expected 7 tables, but found {num_tables} tables"
+
+    # Close the cursor
+    cursor.close()
+
+
+def test_data_in_all_tables(db_connection):
+    # Cursor to execute SQL queries
+    cursor = db_connection.cursor()
+
+    tables = [
+        'Customer_Data',
+        'Employee_Data',
+        'Pets',
+        'Appointment',
+        'Payments',
+        'Types_of_Service',
+        'Appointment_Services'
+    ]
+
+    for table in tables:
+
+    # Execute query to count the number of tables
+        cursor.execute("SELECT COUNT(*) FROM " +  table)
+
+        # Get the count of tables
+        num_tables = cursor.fetchone()[0]
+
+        # Check if there are 7 tables
+        assert num_tables > 0, f"Expected data in table {table}, but found none"
 
     # Close the cursor
     cursor.close()
