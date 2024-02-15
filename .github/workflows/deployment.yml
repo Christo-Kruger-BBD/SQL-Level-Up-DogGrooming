@@ -44,8 +44,7 @@ jobs:
           -licenseKey="${{ secrets.FLYWAY_LICENSE_KEY }}"
           -url="${{ secrets.DB_URL }}"
           -user="${{ secrets.DB_USERNAME }}"
-          -password="${{ secrets.DB_PASSWORD }}"
-
+          -password="${{ secrets.DB_PASSWORD }}" migrate
   ConfigureAwsAndTerraform:
     needs: FlywayMigration
     runs-on: ubuntu-latest
