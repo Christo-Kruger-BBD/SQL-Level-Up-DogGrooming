@@ -1,6 +1,6 @@
-const mssql = require('mssql');
-const fs = require('fs');
-const path = require('path');
+const mssql = require("mssql");
+const fs = require("fs");
+const path = require("path");
 
 const SECONDS = 1000;
 jest.setTimeout(1.5 * SECONDS);
@@ -18,8 +18,8 @@ function getConfig() {
     server: dbHost,
     database: dbName,
     options: {
-      trustServerCertificate: true
-    }
+      trustServerCertificate: true,
+    },
   };
 }
 
@@ -30,13 +30,13 @@ describe("MSSQL Database Tests", () => {
   beforeAll((done) => {
     // Create a connection pool before running tests
     config = getConfig();
-    mssql.connect({...config, beforeConnect: conn => {
-      conn.once('connect', err => { err ? console.error(err) : console.log('mssql connected')})
-      conn.once('end', err => { err ? console.error(err) : console.log('mssql disconnected')})
-    }}).then((pool) => {
-      executeSqlScript('database/migrations/V20240208__Init_Setup.sql', pool, () => {
-        done();
-      });
+    mssql.connect(config, function (err) {
+      // Create Request object to perform
+      // query operation
+      let request = new mssql.Request();
+
+      // Query to the database and get the records
+      executeSqlScript('database/migrations/V20240208__Init_Setup.sql', request, done);
     });
   });
 
@@ -53,7 +53,7 @@ describe("MSSQL Database Tests", () => {
   });
 
   let tableNames = [
-    "CustomerData"
+    "CustomerData",
     // Add more tables if needed
   ];
 
@@ -75,27 +75,29 @@ describe("MSSQL Database Tests", () => {
   });
 });
 
-function executeSqlScript(sqlScriptPath, pool, done) {
+function executeSqlScript(sqlScriptPath, request, done) {
   let sqlScriptFilePath = path.join(__dirname, sqlScriptPath);
 
   // Read SQL script file
-  fs.readFile(sqlScriptFilePath, 'utf8', (err, sqlScript) => {
+  fs.readFile(sqlScriptFilePath, "utf8", (err, sqlScript) => {
     if (err) throw err;
 
-    // Execute SQL script
-     pool.query(sqlScript, (err) => {
-      if (err) throw err;
+    request.query(sqlScript, function (err, records) {
+      if (err) console.log(err);
+
+      // Send records as a response
+      // to browser
+      res.send(records);
+
       done();
-     });
+    });
   });
 }
 
-
-
-  //   "Pets",
-  //   "Appointment",
-  //   "Payments",
-  //   "ServiceTypes",
-  //   "Employees",
-  //   "EmployeeAssignments",
-  // ];
+//   "Pets",
+//   "Appointment",
+//   "Payments",
+//   "ServiceTypes",
+//   "Employees",
+//   "EmployeeAssignments",
+// ];
