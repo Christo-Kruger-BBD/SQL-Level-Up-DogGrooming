@@ -19,7 +19,7 @@ VALUES
     (5, 'Lucy', 'Pomeranian', 'Small', 3),
     (5, 'Molly', 'Bulldog', 'Medium', 4),
     (5, 'Oscar', 'Dachshund', 'Small', 2),
-    (15, 'Lola', 'Yorkshire Terrier', 'Small', 3);
+    (5, 'Lola', 'Yorkshire Terrier', 'Small', 3);
 
 -- Add mock data to the Types_of_Service table
 INSERT INTO Types_of_Service (Price, ServiceType, Duration)
