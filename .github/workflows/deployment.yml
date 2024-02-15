@@ -24,9 +24,9 @@ permissions:
   contents: read
 
 jobs:
-
   FlywayMigration:
-    name: Continuous Integration Build
+    name: Run Flyway Migration
+    needs: AmazonWebServices
     runs-on: ubuntu-20.04
 
     steps:
@@ -38,13 +38,13 @@ jobs:
           docker run --rm
           --volume ${{ github.workspace }}/database/migrations:/flyway/sql:ro
           redgate/flyway
+          -licenseKey="${{ secrets.FLYWAY_LICENSE_KEY }}"
           -url="${{ secrets.DB_URL }}"
           -user="${{ secrets.DB_USERNAME }}"
           -password="${{ secrets.DB_PASSWORD }}"
           -cleanDisabled=false clean migrate
 
   ConfigureAwsAndTerraform:
-    needs: FlywayMigration
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -76,7 +76,7 @@ jobs:
   # AmazonWebServices:
   #   needs: ConfigureAwsAndTerraform
   #   runs-on: ubuntu-latest
-    
+
   #   steps:
   #   - name: Launch AWS Server
   #     run: |
