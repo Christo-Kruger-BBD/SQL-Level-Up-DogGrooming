@@ -53,8 +53,8 @@ resource "aws_db_instance" "default" {
   allocated_storage = 20
   engine = "sqlserver-ex"
   instance_class = "db.t3.micro"
-  username = var.db-username
-  password = var.db_password
+ username = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["username"]
+  password = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["password"]
   skip_final_snapshot = true // required to destroy
   publicly_accessible= true
   identifier = "dog-grooming"

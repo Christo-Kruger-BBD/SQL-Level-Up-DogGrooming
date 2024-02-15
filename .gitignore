@@ -1,2 +1,18 @@
 node_modules/
 tempJira.md
+
+# Ignore Terraform state files
+*.tfstate
+*.tfstate.backup
+*.tfstate.backup.*
+
+# Ignore Terraform directory
+.terraform/
+
+# Ignore Terraform variable files
+*.tfvars
+
+# Ignore Terraform CLI configurations
+*.terraformrc
+terraform.rc
+.terraform.lock.*
