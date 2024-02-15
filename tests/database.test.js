@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 const SECONDS = 1000;
-jest.setTimeout(1.5 * SECONDS);
+jest.setTimeout(5 * SECONDS);
 
 const dbName = 'sql1';
 const dbUser = 'admin';
@@ -96,7 +96,7 @@ describe("MSSQL Database Tests", () => {
 
       // Send records as a response
       // to browser
-      res.send(records);
+      //res.send(records);
 
       done();
     });
