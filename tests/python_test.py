@@ -92,7 +92,6 @@ def test_data_in_all_tables(db_connection):
 
 def test_table_views(db_connection):
     # Cursor to execute SQL queries
-    cursor = db_connection.cursor()
 
     current_dir = os.path.dirname(os.path.abspath(__file__))
     sql_script_path = os.path.join(current_dir, '../database/migrations/V3__TableViews.sql')
@@ -113,7 +112,7 @@ def test_table_views(db_connection):
     ]
 
     for view in views:
-
+        cursor = db_connection.cursor()
     # Execute query to count the number of tables
         cursor.execute("SELECT * FROM " +  view)
 
@@ -122,6 +121,8 @@ def test_table_views(db_connection):
 
         # Check if there are 7 tables
         assert num_tables > 0, f"Expected data in view {view}, but found none"
+
+        cursor.close()
 
     print('VIEW TEST PASSED')
 
