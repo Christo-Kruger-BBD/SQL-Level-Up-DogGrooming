@@ -1,6 +1,6 @@
 name: CI
 
-on: [push]
+on: []
 
 env:
   AWS_REGION : "eu-west-1"
