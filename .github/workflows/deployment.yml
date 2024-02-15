@@ -26,7 +26,6 @@ permissions:
 jobs:
   FlywayMigration:
     name: Run Flyway Migration
-    needs: AmazonWebServices
     runs-on: ubuntu-20.04
 
     steps:
