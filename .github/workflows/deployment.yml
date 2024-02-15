@@ -51,7 +51,7 @@ jobs:
 
         
     - name: Terraform Apply
-      #working-directory: ./Infrastructure
+      working-directory: Infrastructure
       run: terraform apply -auto-approve
 
   AmazonWebServices:
