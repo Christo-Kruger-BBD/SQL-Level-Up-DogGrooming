@@ -102,8 +102,7 @@ CREATE TABLE Pets (
     Name VARCHAR(255),
     Breed VARCHAR(255),
     Size VARCHAR(255),
-    Age INTEGER,
-	FOREIGN KEY (CustomerID) REFERENCES Customer_Data(CustomerID)
+    Age INTEGER
 );
 
 CREATE TABLE Appointment (
@@ -112,10 +111,7 @@ CREATE TABLE Appointment (
     PetID INTEGER, --FK
     EmployeeID INTEGER, --FK
     DateTime DATETIME,
-    ServiceID INTEGER,
-	FOREIGN KEY (CustomerID) REFERENCES Customer_Data(CustomerID),
-	FOREIGN KEY (PetID) REFERENCES Pets(PetID),
-	FOREIGN KEY (EmployeeID) REFERENCES Employee_Data(EmployeeID)
+    ServiceID INTEGER
 );
 
 CREATE TABLE Payments (
@@ -123,8 +119,7 @@ CREATE TABLE Payments (
     AppointmentID INTEGER, --FK
     Amount DECIMAL,
     DateIssued DATE,
-    Status VARCHAR(255),
-	FOREIGN KEY (AppointmentID) REFERENCES Appointment(AppointmentID)
+    Status VARCHAR(255)
 );
 
 CREATE TABLE Types_of_Service (
@@ -137,9 +132,7 @@ CREATE TABLE Types_of_Service (
 CREATE TABLE Appointment_Services (
     AppointmentServiceID INTEGER PRIMARY KEY IDENTITY(1,1),
     AppointmentID INTEGER, --FK
-    ServiceID INTEGER, --FK
-	FOREIGN KEY (AppointmentID) REFERENCES Appointment(AppointmentID),
-	FOREIGN KEY (ServiceID) REFERENCES Types_of_Service(ServiceID)
+    ServiceID INTEGER --FK
 );
 
 GO
