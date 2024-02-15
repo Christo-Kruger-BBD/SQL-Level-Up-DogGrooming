@@ -21,19 +21,24 @@ def db_connection():
     # Close the connection after all tests are done
     conn.close()
 
-def test_db_connection(db_connection):
-    # Test the database connection
-    assert db_connection is not None
+def test_database_connection(db_connection):
+    # Check if the connection is alive
+    assert db_connection is not None, "Database connection is not established"
 
-def test_fetch_data_from_table(db_connection):
-    # Test fetching data from a table in the database
+def test_number_of_tables(db_connection):
+    # Cursor to execute SQL queries
     cursor = db_connection.cursor()
-    cursor.execute("SELECT COUNT(*) FROM your_table_name")
-    row_count = cursor.fetchone()[0]
-    assert row_count > 0
 
-    # Additional assertions or tests can be added here
+    # Execute query to count the number of tables
+    cursor.execute("SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'")
 
+    # Get the count of tables
+    num_tables = cursor.fetchone()[0]
+
+    # Check if there are 7 tables
+    assert num_tables == 7, f"Expected 7 tables, but found {num_tables} tables"
+
+    # Close the cursor
     cursor.close()
 
 if __name__ == "__main__":
