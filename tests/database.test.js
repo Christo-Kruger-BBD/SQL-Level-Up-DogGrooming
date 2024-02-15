@@ -26,9 +26,9 @@ describe("MSSQL Database Tests", () => {
   let request;
   beforeAll(async (done) => {
     // Create a connection pool before running tests
-    const pool = await mssql.connect(config, function (err) {
-      // Query to the database and get the records
-    });
+    // const pool = await mssql.connect(config, function (err) {
+    //   // Query to the database and get the records
+    // });
 
     executeSqlScript(
       "../database/migrations/V20240208__Init_Setup.sql",
@@ -87,7 +87,7 @@ describe("MSSQL Database Tests", () => {
   fs.readFile(sqlScriptFilePath, "utf8", async (err, sqlScript) => {
     if (err) throw err;
 
-    //await mssql.connect(config);
+    await mssql.connect(config);
 
     const result = await mssql.query(sqlScript);
 
