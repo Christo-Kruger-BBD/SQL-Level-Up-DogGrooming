@@ -32,15 +32,15 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run tests JS
+        uses: potatoqualitee/mssqlsuite@v1.7
+        with:
+          install: sqlengine, sqlclient, sqlpackage, localdb
         run: |
           npm install
           npm i mssql
           sudo docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(%)Password"  -e "MSSQL_PID=Express" \
           -p 1433:1433 --restart=always --name sql2 --hostname sql2 \
           -d mcr.microsoft.com/mssql/server:2019-latest
-          sudo docker exec sql2 /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "yourStrong(%)Password"
-          select * from sys.syslogins;
-          go;
           npm test
 
   TestDB_PY:

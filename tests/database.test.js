@@ -5,8 +5,8 @@ const path = require("path");
 const SECONDS = 1000;
 jest.setTimeout(5 * SECONDS);
 
-const dbName = "sql2";
-const dbUser = "mssql";
+const dbName = "tempdb";
+const dbUser = "sa";
 const dbPassword = "yourStrong(%)Password";
 
 // Function to create a MSSQL connection pool
