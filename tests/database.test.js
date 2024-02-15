@@ -30,10 +30,7 @@ describe("MSSQL Database Tests", () => {
   beforeAll((done) => {
     // Create a connection pool before running tests
     pool = createPool();
-    pool.connect((err) => {
-      if (err) throw err;
-
-      // Execute the SQL script
+    sql.connect(pool).then((pool) => {
       executeSqlScript('database/migrations/V20240208__Init_Setup.sql', pool, () => {
         done();
       });
