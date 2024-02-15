@@ -1,4 +1,3 @@
--- Create View:
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = 'appointment_details_view')
 BEGIN
     CREATE VIEW appointment_details_view AS
@@ -24,7 +23,6 @@ BEGIN
         Types_of_Service ts ON aps.ServiceID = ts.ServiceID;
 END;
 
--- Create Stored Procedure:
 IF NOT EXISTS (SELECT * FROM sys.procedures WHERE name = 'add_new_appointment_procedure')
 BEGIN
     CREATE PROCEDURE add_new_appointment_procedure
@@ -53,7 +51,6 @@ BEGIN
     END;
 END;
 
--- Create Scalar Function:
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[calculate_total_payment]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
 BEGIN
     CREATE FUNCTION calculate_total_payment
@@ -72,7 +69,6 @@ BEGIN
     END;
 END;
 
--- Create Table-Valued Function: GetAppointmentsForCustomerFunction
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[get_appointments_for_customer_function]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
 BEGIN
     CREATE FUNCTION get_appointments_for_customer_function(@CustomerID INT)
