@@ -10,15 +10,17 @@ const dbName = process.env.FW_NAME;
 console.log("IM HEREEEEEE!!!!");
 console.log("dbName ", dbName);
 
-// Create AWS Secrets Manager client
-const secretsManager = new AWS.SecretsManager({
-  region: 'eu-west-1'
+// Set AWS configuration using environment variables
+AWS.config.update({
+  region: process.env.AWS_REGION,
+  credentials: new AWS.EnvironmentCredentials('AWS') // Use IAM role credentials
 });
 
 // Function to retrieve secrets from AWS Secrets Manager
 async function getSecrets() {
   try {
-    const data = await secretsManager.getSecretValue({ SecretId: 'dbcreds' }).promise();
+    const secretsManager = new AWS.SecretsManager();
+    const data = await secretsManager.getSecretValue({ SecretId: 'your-secret-id' }).promise();
     return JSON.parse(data.SecretString);
   } catch (error) {
     console.error("Error retrieving secrets:", error);
