@@ -4,8 +4,8 @@ import pyodbc
 # Database connection parameters
 DB_SERVER = "localhost"
 DB_NAME = "sql1"
-DB_USER = "admin"
-DB_PASSWORD = "1234"
+DB_USER = "sa"
+DB_PASSWORD = r"GsM%XIj*i)gUR3wI0"
 
 @pytest.fixture(scope="module")
 def db_connection():

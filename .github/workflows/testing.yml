@@ -25,13 +25,13 @@ permissions:
 
 jobs:
 
-  TestDB:
+  TestDB_JS:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Run tests
+      - name: Run tests JS
         run: |
           sudo docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=GsM%XIj*i)gUR3wI0" \
           -p 1433:1433 --name sql1 --hostname sql1 \
@@ -40,3 +40,18 @@ jobs:
           npm install
           npm i mssql
           npm test
+
+  TestDB_PY:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run tests JS
+        run: |
+          sudo docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=GsM%XIj*i)gUR3wI0" \
+          -p 1433:1433 --name sql1 --hostname sql1 \
+          -d \
+          mcr.microsoft.com/mssql/server:2022-latest
+          pip install pytest
+          pip install pyodbc
