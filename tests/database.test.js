@@ -83,6 +83,9 @@ describe("MSSQL Database Tests", () => {
       trustServerCertificate: true,
     },
   };
+
+  console.log(`Host: ${dbHost}`);
+  console.log(`Name: ${dbName}`);
   
   // Read SQL script file
   fs.readFile(sqlScriptFilePath, "utf8", async (err, sqlScript) => {
