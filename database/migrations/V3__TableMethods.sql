@@ -1,4 +1,3 @@
--- Create View:
 CREATE VIEW appointment_details_view AS
 SELECT 
     a.AppointmentID,
@@ -21,7 +20,6 @@ JOIN
 JOIN 
     Types_of_Service ts ON aps.ServiceID = ts.ServiceID;
    
--- Create Stored Procedure:
 CREATE PROCEDURE add_new_appointment_procedure
 	@AppointmentID INT,
     @CustomerID INT,
@@ -47,7 +45,6 @@ BEGIN
     END
 END;
 
--- Create Scalar Function:
 CREATE FUNCTION calculate_total_payment
 (
     @AppointmentID INT
@@ -63,7 +60,6 @@ BEGIN
     RETURN @TotalAmount;
 END;
 
--- Create Table-Valued Function: GetAppointmentsForCustomerFunction
 CREATE FUNCTION get_appointments_for_customer_function(@CustomerID INT)
 RETURNS TABLE
 AS
