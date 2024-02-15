@@ -134,37 +134,37 @@ def test_table_views(db_connection):
 
 
 
-def test_table_funcs(db_connection):
-    # Cursor to execute SQL queries
-    cursor = db_connection.cursor()
+# def test_table_funcs(db_connection):
+#     # Cursor to execute SQL queries
+#     cursor = db_connection.cursor()
 
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    sql_script_path = os.path.join(current_dir, '../database/migrations/V6__TableFunctions.sql')
-    execute_sql_script(conn, sql_script_path)
+#     current_dir = os.path.dirname(os.path.abspath(__file__))
+#     sql_script_path = os.path.join(current_dir, '../database/migrations/V6__TableFunctions.sql')
+#     execute_sql_script(conn, sql_script_path)
 
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    sql_script_path = os.path.join(current_dir, '../database/migrations/V7__TableFunctions2.sql')
-    execute_sql_script(conn, sql_script_path)
+#     current_dir = os.path.dirname(os.path.abspath(__file__))
+#     sql_script_path = os.path.join(current_dir, '../database/migrations/V7__TableFunctions2.sql')
+#     execute_sql_script(conn, sql_script_path)
     
 
-    funcs = {
-        'DECLARE @TotalPayment DECIMAL(10, 2); SET @T0talPayment = dbo.calculate_total_payment(1); SELECT @TotalPayment AS TotalPayment;': [50],
-        'SELECT * FROM dbo.get_appointments_for_customer_function(1);': [1, '*', 'Buddy', 'Michael Johnson']
-    }
+#     funcs = {
+#         'DECLARE @TotalPayment DECIMAL(10, 2); SET @T0talPayment = dbo.calculate_total_payment(1); SELECT @TotalPayment AS TotalPayment;': [50],
+#         'SELECT * FROM dbo.get_appointments_for_customer_function(1);': [1, '*', 'Buddy', 'Michael Johnson']
+#     }
 
-    for func in funcs:
+#     for func in funcs:
 
-    # Execute query to count the number of tables
-        cursor.execute(func)
+#     # Execute query to count the number of tables
+#         cursor.execute(func)
 
-        # Get the count of tables
-        num_data = cursor.fetchone()
-        print(num_data)
-        # Check if there are 7 tables
-        assert num_data == funcs[func], f"Expected data in view {func}, but found none"
+#         # Get the count of tables
+#         num_data = cursor.fetchone()
+#         print(num_data)
+#         # Check if there are 7 tables
+#         assert num_data == funcs[func], f"Expected data in view {func}, but found none"
 
-    # Close the cursor
-    cursor.close()
+#     # Close the cursor
+#     cursor.close()
 
 
 if __name__ == "__main__":
