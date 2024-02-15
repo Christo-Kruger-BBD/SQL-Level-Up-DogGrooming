@@ -135,21 +135,21 @@ def test_table_views(db_connection):
     execute_sql_script(conn, sql_script_path)
 
     funcs = {
-        ['DECLARE @TotalPayment DECIMAL(10, 2);', 'SET @TotalPayment = dbo.calculate_total_payment(1);', 'SELECT @TotalPayment AS TotalPayment;']: 50,
-        ['SELECT * FROM dbo.get_appointments_for_customer_function(1);']: 'Michael Johnson'
+        50: ['DECLARE @TotalPayment DECIMAL(10, 2);', 'SET @TotalPayment = dbo.calculate_total_payment(1);', 'SELECT @TotalPayment AS TotalPayment;'],
+        'Michael Johnson': ['SELECT * FROM dbo.get_appointments_for_customer_function(1);']
     }
 
     for func in funcs:
 
     # Execute query to count the number of tables
         for item in func:
-            cursor.execute(item)
+            cursor.execute(func[item])
 
         # Get the count of tables
         num_data = cursor.fetchone()[-1]
         print(num_data)
         # Check if there are 7 tables
-        assert num_data == funcs[func], f"Expected data in func to be {funcs[func]} but got {num_data}"
+        assert num_data == func, f"Expected data in func to be {func} but got {num_data}"
 
     print("FUNCS TEST PASSED")
 
