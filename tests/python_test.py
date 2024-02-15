@@ -143,7 +143,7 @@ def test_table_views(db_connection):
 
     # Execute query to count the number of tables
         for item in funcs[func]:
-            cursor.execute(func[item])
+            cursor.execute(item)
 
         # Get the count of tables
         num_data = cursor.fetchone()[-1]
