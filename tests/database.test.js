@@ -5,7 +5,6 @@ const path = require("path");
 const SECONDS = 1000;
 jest.setTimeout(1.5 * SECONDS);
 
-const dbHost = "dog-grooming.cbsozziiwdya.eu-west-1.rds.amazonaws.com"; // process.env.FW_HOST;
 const dbName = process.env.FW_NAME;
 const dbUser = process.env.FW_USER;
 const dbPassword = process.env.FW_PASS;
@@ -14,7 +13,7 @@ const dbPassword = process.env.FW_PASS;
 const config = {
   user: dbUser,
   password: dbPassword,
-  server: dbHost,
+  server: 'localhost',
   database: dbName,
   options: {
     trustServerCertificate: true,
@@ -83,9 +82,6 @@ describe("MSSQL Database Tests", () => {
       trustServerCertificate: true,
     },
   };
-
-  console.log(`Host: ${dbHost}`);
-  console.log(`Name: ${dbName}`);
   
   // Read SQL script file
   fs.readFile(sqlScriptFilePath, "utf8", async (err, sqlScript) => {
