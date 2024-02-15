@@ -26,6 +26,7 @@ permissions:
   contents: read
 
 jobs:
+
   TestDB:
     runs-on: ubuntu-latest
     services:
@@ -36,9 +37,7 @@ jobs:
           ACCEPT_EULA: 'Y'
         ports:
           - 1433:1433
-
-  UnitTesting:
-    runs-on: ubuntu-latest  
+          
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
