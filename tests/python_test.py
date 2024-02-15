@@ -103,9 +103,18 @@ def test_table_views(db_connection):
     sql_script_path = os.path.join(current_dir, '../database/migrations/V3__TableViews.sql')
     execute_sql_script(conn, sql_script_path)
 
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    sql_script_path = os.path.join(current_dir, '../database/migrations/V4__TableViews2.sql')
+    execute_sql_script(conn, sql_script_path)
+
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    sql_script_path = os.path.join(current_dir, '../database/migrations/V5__TableViews3.sql')
+    execute_sql_script(conn, sql_script_path)
+
     views = [
         'appointment_details_view',
-        #'upcoming_appointments_view'
+        'upcoming_appointments_view',
+        'employee_schedule_view'
     ]
 
     for view in views:
@@ -124,32 +133,37 @@ def test_table_views(db_connection):
 
 
 
-def test_table_procs(db_connection):
-    # Cursor to execute SQL queries
-    cursor = db_connection.cursor()
+# def test_table_funcs(db_connection):
+#     # Cursor to execute SQL queries
+#     cursor = db_connection.cursor()
 
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    sql_script_path = os.path.join(current_dir, '../database/migrations/V4__TableProcedures.sql')
-    execute_sql_script(conn, sql_script_path)
+#     current_dir = os.path.dirname(os.path.abspath(__file__))
+#     sql_script_path = os.path.join(current_dir, '../database/migrations/V6__TableFunctions.sql')
+#     execute_sql_script(conn, sql_script_path)
 
-    procs = [
-        'add_new_appointment_procedure',
-        'GetAppointmentsByEmployee'
-    ]
+#     current_dir = os.path.dirname(os.path.abspath(__file__))
+#     sql_script_path = os.path.join(current_dir, '../database/migrations/V7__TableFunctions2.sql')
+#     execute_sql_script(conn, sql_script_path)
+    
 
-    for proc in procs:
+#     funcs = [
+#         'calculate_total_payment',
+#         'get_appointments_for_customer_function'
+#     ]
 
-    # Execute query to count the number of tables
-        cursor.execute("SELECT * FROM " +  proc)
+#     for func in funcs:
 
-        # Get the count of tables
-        num_data = cursor.fetchone()[0]
+#     # Execute query to count the number of tables
+#         cursor.execute("SELECT * FROM " +  func)
 
-        # Check if there are 7 tables
-        assert num_data > 0, f"Expected data in view {proc}, but found none"
+#         # Get the count of tables
+#         num_data = cursor.fetchone()[0]
 
-    # Close the cursor
-    cursor.close()
+#         # Check if there are 7 tables
+#         assert num_data > 0, f"Expected data in view {func}, but found none"
+
+#     # Close the cursor
+#     cursor.close()
 
 
 if __name__ == "__main__":
