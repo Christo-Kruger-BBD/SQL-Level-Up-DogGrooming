@@ -6,6 +6,8 @@ const SECONDS = 1000;
 jest.setTimeout(1.5 * SECONDS);
 
 const dbName = process.env.FW_NAME;
+console.log("IM HEREEEEEE!!!!");
+console.log("dbName " ,dbName);
 const dbUser = process.env.FW_USER;
 const dbPassword = process.env.FW_PASS;
 
