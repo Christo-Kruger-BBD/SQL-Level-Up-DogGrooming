@@ -52,7 +52,7 @@ jobs:
         
     - name: Terraform Apply
       #working-directory: ./Infrastructure
-      run: terraform apply -auto-approve -input=false -out tfplan.plan
+      run: terraform apply -auto-approve
 
   AmazonWebServices:
     #needs: InfrastructureAsCode
