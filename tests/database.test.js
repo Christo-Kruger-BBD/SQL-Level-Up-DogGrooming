@@ -1,82 +1,68 @@
-const mysql = require('mysql');
+const mssql = require('mssql');
 const fs = require('fs');
+const path = require('path');
 
 const SECONDS = 1000;
-jest.setTimeout(1.5 * SECONDS)
+jest.setTimeout(1.5 * SECONDS);
 
 const dbHost = process.env.DB_SERVER_HOST_NAME;
 const dbName = process.env.DB_NAME;
 const dbUser = process.env.DB_USERNAME;
 const dbPassword = process.env.DB_PASSWORD;
 
-// Function to create a MySQL connection pool
+// Function to create a MSSQL connection pool
 function createPool() {
-  return mysql.createPool({
-    connectionLimit: 10,
-    host: "localhost",
-    user: "test_user",
-    password: "test_user_password",
-    database: "pipelines",
+  return new mssql.ConnectionPool({
+    user: dbUser,
+    password: dbPassword,
+    server: dbHost,
+    database: dbName,
+    options: {
+      trustServerCertificate: true
+    }
   });
 }
 
-// Test suite for MySQL database interactions
-describe("MySQL Database Tests", () => {
+// Test suite for MSSQL database interactions
+describe("MSSQL Database Tests", () => {
   let pool;
 
-  beforeAll(() => {
+  beforeAll((done) => {
     // Create a connection pool before running tests
     pool = createPool();
-
-    // Get a connection from the pool
-    pool.getConnection((err, connection) => {
+    pool.connect((err) => {
       if (err) throw err;
-      
+
       // Execute the SQL script
-      executeSqlScript('database/sample.sql', connection, () => {
-        // Release the connection back to the pool
-        connection.release();
+      executeSqlScript('database/migrations/V20240208__Init_Setup.sql', pool, () => {
         done();
       });
     });
   });
 
-
-  it("should connect to the MySQL database", (done) => {
+  it("should connect to the MSSQL database", (done) => {
     // Test connection to the database
-    pool.getConnection((err, connection) => {
-      if (err) throw err;
-      expect(connection).toBeDefined();
-      connection.release();
-      done();
-    });
+    expect(pool.connected).toBeTruthy();
+    done();
   });
 
   it("should set itself up", (done) => {
     // Test connection to the database
-    pool.getConnection((err, connection) => {
-      if (err) throw err;
-      expect(connection).toBeDefined();
-      connection.release();
-      done();
-    });
+    expect(pool.connected).toBeTruthy();
+    done();
   });
 
   let tableNames = [
-    "CustomerData" ];
-  //   "Pets",
-  //   "Appointment",
-  //   "Payments",
-  //   "ServiceTypes",
-  //   "Employees",
-  //   "EmployeeAssignments",
-  // ];
+    "CustomerData"
+    // Add more tables if needed
+  ];
+
   tableNames.forEach((table) => {
-    it("should retrieve data from the MySQL database", (done) => {
+    it(`should retrieve data from the MSSQL table ${table}`, (done) => {
       // Test retrieving data from the database
-      pool.query(`SELECT * FROM ${table}`, (err, results) => {
+      pool.request().query(`SELECT * FROM ${table}`, (err, result) => {
         if (err) throw err;
-        expect(results.length).toBeGreaterThan(0);
+        expect(result.recordset.length).toBeGreaterThan(0);
         done();
       });
     });
@@ -84,23 +70,32 @@ describe("MySQL Database Tests", () => {
 
   afterAll((done) => {
     // Close the connection pool after all tests are finished
-    pool.end(done);
+    pool.close();
+    done();
   });
 });
 
-
-function executeSqlScript(sqlScriptPath, connection, done) {
-
-  const sqlScriptPath = path.join(__dirname, sqlScriptPath);
+function executeSqlScript(sqlScriptPath, pool, done) {
+  let sqlScriptFilePath = path.join(__dirname, sqlScriptPath);
 
   // Read SQL script file
-  fs.readFile(sqlScriptPath, 'utf8', (err, sqlScript) => {
+  fs.readFile(sqlScriptFilePath, 'utf8', (err, sqlScript) => {
     if (err) throw err;
-    
+
     // Execute SQL script
-    connection.query(sqlScript, (err) => {
+    pool.request().batch(sqlScript, (err) => {
       if (err) throw err;
       done();
     });
   });
 }
+
+
+
+  //   "Pets",
+  //   "Appointment",
+  //   "Payments",
+  //   "ServiceTypes",
+  //   "Employees",
+  //   "EmployeeAssignments",
+  // ];
