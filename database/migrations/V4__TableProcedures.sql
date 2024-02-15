@@ -1,4 +1,3 @@
--- Create Stored Procedure:
 CREATE PROCEDURE add_new_appointment_procedure
 	@AppointmentID INT,
     @CustomerID INT,

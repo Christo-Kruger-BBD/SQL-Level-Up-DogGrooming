@@ -1,4 +1,3 @@
--- Create Scalar Function:
 CREATE FUNCTION calculate_total_payment
 (
     @AppointmentID INT
@@ -16,7 +15,6 @@ END;
 
 GO
 
--- Create Table-Valued Function: GetAppointmentsForCustomerFunction
 CREATE FUNCTION get_appointments_for_customer_function(@CustomerID INT)
 RETURNS TABLE
 AS

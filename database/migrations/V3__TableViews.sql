@@ -1,4 +1,3 @@
--- Create View:
 CREATE VIEW appointment_details_view AS
 SELECT 
     a.AppointmentID,
@@ -44,7 +43,7 @@ JOIN
 JOIN 
     Types_of_Service ON Appointment.ServiceID = Types_of_Service.ServiceID
 WHERE 
-    Appointment.DateTime > GETDATE(); -- Use GETDATE() to get the current date and time
+    Appointment.DateTime > GETDATE();
 
 CREATE VIEW employee_schedule_view AS
 SELECT 

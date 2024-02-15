@@ -95,10 +95,32 @@ def test_data_in_all_tables(db_connection):
     # Close the cursor
     cursor.close()
 
+def test_table_views(db_connection):
+    # Cursor to execute SQL queries
+    cursor = db_connection.cursor()
 
-    # current_dir = os.path.dirname(os.path.abspath(__file__))
-    # sql_script_path = os.path.join(current_dir, '../database/migrations/V3__TableMethods.sql')
-    # execute_sql_script(conn, sql_script_path)
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    sql_script_path = os.path.join(current_dir, '../database/migrations/V3__TableViews.sql')
+    execute_sql_script(conn, sql_script_path)
+
+    views = [
+        'appointment_details_view',
+        'upcoming_appointments_view'
+    ]
+
+    for view in views:
+
+    # Execute query to count the number of tables
+        cursor.execute("SELECT * FROM " +  view)
+
+        # Get the count of tables
+        num_tables = cursor.fetchone()[0]
+
+        # Check if there are 7 tables
+        assert num_tables > 0, f"Expected data in view {view}, but found none"
+
+    # Close the cursor
+    cursor.close()
 
 
 if __name__ == "__main__":
