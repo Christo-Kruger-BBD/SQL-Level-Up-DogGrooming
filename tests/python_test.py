@@ -8,17 +8,15 @@ DB_NAME = "tempdb"
 DB_USER = "sa"
 DB_PASSWORD = r"yourStrong(%)Password"
 
-hasExecuted = False
 # Function to execute SQL script file
 def execute_sql_script(conn, script_path):
-    if not hasExecuted:
-        with open(script_path, 'r') as sql_file:
-            sql_script = sql_file.read()
-            cursor = conn.cursor()
-            cursor.execute(sql_script)
-            cursor.commit()
-            cursor.close()
-            hasExecuted = True
+    with open(script_path, 'r') as sql_file:
+        sql_script = sql_file.read()
+        cursor = conn.cursor()
+        cursor.execute(sql_script)
+        cursor.commit()
+        cursor.close()
+        hasExecuted = True
 
 @pytest.fixture(scope="function")
 def db_connection(request):
