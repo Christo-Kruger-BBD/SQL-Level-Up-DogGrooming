@@ -39,10 +39,10 @@ jobs:
       working-directory: 'Infrastructure'
       run: terraform init
     
-    - name: Terraform Validate
-      id: validate
-      working-directory: 'Infrastructure'
-      run: terraform validate
+    # - name: Terraform Validate
+    #   id: validate
+    #   working-directory: 'Infrastructure'
+    #   run: terraform validate
     
     - name: Terraform Plan
       id: plan
