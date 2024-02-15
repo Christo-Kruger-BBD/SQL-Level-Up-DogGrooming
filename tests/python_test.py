@@ -5,7 +5,7 @@ import pyodbc
 DB_SERVER = "127.0.0.1"
 DB_NAME = "sql1"
 DB_USER = "sa"
-DB_PASSWORD = r"yourStrong(!)Password"
+DB_PASSWORD = r"yourStrong(%)Password"
 
 @pytest.fixture(scope="module")
 def db_connection():

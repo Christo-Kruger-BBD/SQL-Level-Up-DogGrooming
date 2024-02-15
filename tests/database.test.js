@@ -7,7 +7,7 @@ jest.setTimeout(5 * SECONDS);
 
 const dbName = "sql1";
 const dbUser = "sa";
-const dbPassword = "yourStrong(!)Password";
+const dbPassword = "yourStrong(%)Password";
 
 // Function to create a MSSQL connection pool
 const config = {
