@@ -134,7 +134,7 @@ def test_table_views(db_connection):
     print('VIEW TEST PASSED')
 
     funcs = {
-        'DECLARE @TotalPayment DECIMAL(10, 2); SET @T0talPayment = dbo.calculate_total_payment(1); SELECT @TotalPayment AS TotalPayment;': 50,
+        'DECLARE @TotalPayment DECIMAL(10, 2); SET @TotalPayment = dbo.calculate_total_payment(1); SELECT @TotalPayment AS TotalPayment;': 50,
         'SELECT * FROM dbo.get_appointments_for_customer_function(1);': 'Michael Johnson'
     }
 
@@ -148,6 +148,8 @@ def test_table_views(db_connection):
         print(num_data)
         # Check if there are 7 tables
         assert num_data == funcs[func], f"Expected data in view {func}, but found none"
+
+    print("FUNCS TEST PASSED")
 
     # Close the cursor
     cursor.close()
