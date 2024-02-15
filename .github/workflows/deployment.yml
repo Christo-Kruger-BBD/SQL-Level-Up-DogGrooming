@@ -1,4 +1,4 @@
-name: CI
+name: CD
 
 on: [push]
 
@@ -25,7 +25,6 @@ permissions:
 jobs:
 
   FlywayMigration:
-    needs: ConfigureAwsAndTerraform
     runs-on: ubuntu-latest  
     steps:
     - name: Continuous Integration Flyway Clean Migrate
@@ -40,8 +39,8 @@ jobs:
         -cleanDisabled=false clean migrate
 
   ConfigureAwsAndTerraform:
+    needs: FlywayMigration
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - uses: aws-actions/configure-aws-credentials@v4
