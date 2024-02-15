@@ -58,5 +58,3 @@ CREATE TABLE Appointment_Services (
 	FOREIGN KEY (AppointmentID) REFERENCES Appointment(AppointmentID),
 	FOREIGN KEY (ServiceID) REFERENCES Types_of_Service(ServiceID)
 );
-
-GO;
