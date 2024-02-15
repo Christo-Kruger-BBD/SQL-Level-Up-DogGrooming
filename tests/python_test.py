@@ -1,5 +1,5 @@
 import pytest
-import pymssql
+import pyodbc
 
 # Database connection parameters
 DB_SERVER = "localhost"
@@ -10,7 +10,8 @@ DB_PASSWORD = "1234"
 @pytest.fixture(scope="module")
 def db_connection():
     # Establish a connection to the database
-    conn = pymssql.connect(
+    conn = pyodbc.connect(
+        "DRIVER={ODBC Driver 17 for SQL Server};"
         f"SERVER={DB_SERVER};"
         f"DATABASE={DB_NAME};"
         f"UID={DB_USER};"
