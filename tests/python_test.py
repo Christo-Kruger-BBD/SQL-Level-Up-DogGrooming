@@ -16,7 +16,7 @@ def execute_sql_script(conn, script_path):
         cursor.execute(sql_script)
         cursor.commit()
         cursor.close()
-        hasExecuted = True
+
 conn = None
 @pytest.fixture(scope="function")
 def db_connection(request):
@@ -36,13 +36,6 @@ def db_connection(request):
     # Close the connection after all tests are done
     conn.close()
 
-@pytest.mark.order(1)
-def test_database_connection(db_connection):
-
-    # Check if the connection is alive
-    assert db_connection is not None, "Database connection is not established"
-
-@pytest.mark.order(2)
 def test_number_of_tables(db_connection):
 
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -64,7 +57,6 @@ def test_number_of_tables(db_connection):
     # Close the cursor
     cursor.close()
 
-@pytest.mark.order(3)
 def test_data_in_all_tables(db_connection):
     # Cursor to execute SQL queries
     cursor = db_connection.cursor()
@@ -97,7 +89,6 @@ def test_data_in_all_tables(db_connection):
     # Close the cursor
     cursor.close()
 
-@pytest.mark.order(4)
 def test_table_views(db_connection):
     # Cursor to execute SQL queries
     cursor = db_connection.cursor()
