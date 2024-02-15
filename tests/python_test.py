@@ -17,9 +17,10 @@ def execute_sql_script(conn, script_path):
         cursor.commit()
         cursor.close()
         hasExecuted = True
-
+conn = None
 @pytest.fixture(scope="function")
 def db_connection(request):
+    global conn
     # Establish a connection to the database
     conn = pyodbc.connect(
         "DRIVER={ODBC Driver 17 for SQL Server};"
