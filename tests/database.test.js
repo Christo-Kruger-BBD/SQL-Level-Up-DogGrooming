@@ -15,6 +15,7 @@ const config = {
   password: dbPassword,
   server: "localhost",
   database: dbName,
+  port: 1433,
   options: {
     trustServerCertificate: true,
   },
