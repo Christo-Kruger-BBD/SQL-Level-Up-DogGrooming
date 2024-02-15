@@ -76,7 +76,7 @@ describe("MSSQL Database Tests", () => {
   const config = {
     user: dbUser,
     password: dbPassword,
-    server: dbHost,
+    server: 'localhost',
     database: dbName,
     options: {
       trustServerCertificate: true,
