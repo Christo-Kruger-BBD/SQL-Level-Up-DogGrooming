@@ -8,7 +8,7 @@ DB_NAME = "tempdb"
 DB_USER = "sa"
 DB_PASSWORD = r"yourStrong(%)Password"
 
-hasExecuted =False
+hasExecuted = False
 # Function to execute SQL script file
 def execute_sql_script(conn, script_path):
     if not hasExecuted:
