@@ -1,5 +1,6 @@
 import pytest
 import pyodbc
+import os
 
 # Database connection parameters
 DB_SERVER = "127.0.0.1"
