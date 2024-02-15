@@ -29,7 +29,7 @@ def db_connection(request):
 
     # Execute SQL script before each test
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    sql_script_path = os.path.join(current_dir, '../database/migrations/V1__CreateTables.sql.sql')
+    sql_script_path = os.path.join(current_dir, '../database/migrations/V1__CreateTables.sql')
     execute_sql_script(conn, sql_script_path)
 
     yield conn
