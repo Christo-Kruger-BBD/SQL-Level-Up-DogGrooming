@@ -36,5 +36,6 @@ jobs:
           -p 1433:1433 --restart=always --name sql2 \
           -d mcr.microsoft.com/mssql/server:2019-latest
           pip install pytest
+          pip install pytest-order
           pip install pyodbc
           pytest tests/
