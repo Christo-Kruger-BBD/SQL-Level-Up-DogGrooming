@@ -79,6 +79,7 @@ describe("MSSQL Database Tests", () => {
     server: 'localhost',
     database: dbName,
     options: {
+      database: dbName,
       trustServerCertificate: true,
       encrypt: false
     },
