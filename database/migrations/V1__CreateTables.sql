@@ -1,6 +1,6 @@
 -- Create tables
 CREATE TABLE Customer_Data (
-    CustomerID INTEGER PRIMARY KEY,
+    CustomerID INTEGER PRIMARY KEY IDENTITY(1,1),
     Name VARCHAR(255),
     Title VARCHAR(255),
     PhoneNumber VARCHAR(255),
@@ -8,7 +8,7 @@ CREATE TABLE Customer_Data (
 );
 
 CREATE TABLE Employee_Data (
-    EmployeeID INTEGER PRIMARY KEY,
+    EmployeeID INTEGER PRIMARY KEY IDENTITY(1,1),
     Name VARCHAR(255),
     IDNumber VARCHAR(255),
     Phone VARCHAR(255),
@@ -16,7 +16,7 @@ CREATE TABLE Employee_Data (
 );
 
 CREATE TABLE Pets (
-    PetID INTEGER PRIMARY KEY,
+    PetID INTEGER PRIMARY KEY IDENTITY(1,1),
     CustomerID INTEGER, --FK
     Name VARCHAR(255),
     Breed VARCHAR(255),
@@ -26,7 +26,7 @@ CREATE TABLE Pets (
 );
 
 CREATE TABLE Appointment (
-    AppointmentID INTEGER PRIMARY KEY,
+    AppointmentID INTEGER PRIMARY KEY IDENTITY(1,1),
     CustomerID INTEGER, --FK
     PetID INTEGER, --FK
     EmployeeID INTEGER, --FK
@@ -38,7 +38,7 @@ CREATE TABLE Appointment (
 );
 
 CREATE TABLE Payments (
-    PaymentID INTEGER PRIMARY KEY,
+    PaymentID INTEGER PRIMARY KEY IDENTITY(1,1),
     AppointmentID INTEGER, --FK
     Amount DECIMAL,
     DateIssued DATE,
@@ -47,13 +47,14 @@ CREATE TABLE Payments (
 );
 
 CREATE TABLE Types_of_Service (
-    ServiceID INTEGER PRIMARY KEY,
+    ServiceID INTEGER PRIMARY KEY IDENTITY(1,1),
     Price DECIMAL,
     ServiceType VARCHAR(255),
     Duration DECIMAL
 );
 
 CREATE TABLE Appointment_Services (
+    AppointmentServiceID INTEGER PRIMARY KEY IDENTITY(1,1),
     AppointmentID INTEGER, --FK
     ServiceID INTEGER, --FK
 	FOREIGN KEY (AppointmentID) REFERENCES Appointment(AppointmentID),
