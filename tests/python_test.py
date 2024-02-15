@@ -131,6 +131,24 @@ def test_table_views(db_connection):
         # Check if there are 7 tables
         assert num_tables > 0, f"Expected data in view {view}, but found none"
 
+    print('VIEW TEST PASSED')
+
+    funcs = {
+        'DECLARE @TotalPayment DECIMAL(10, 2); SET @T0talPayment = dbo.calculate_total_payment(1); SELECT @TotalPayment AS TotalPayment;': 50,
+        'SELECT * FROM dbo.get_appointments_for_customer_function(1);': 'Michael Johnson'
+    }
+
+    for func in funcs:
+
+    # Execute query to count the number of tables
+        cursor.execute(func)
+
+        # Get the count of tables
+        num_data = cursor.fetchone()[-1]
+        print(num_data)
+        # Check if there are 7 tables
+        assert num_data == funcs[func], f"Expected data in view {func}, but found none"
+
     # Close the cursor
     cursor.close()
 
