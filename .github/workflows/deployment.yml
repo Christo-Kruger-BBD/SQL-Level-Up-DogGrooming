@@ -1,6 +1,7 @@
 name: CD
 
-on: [push]
+on: 
+  pull_request:
 
 env:
   AWS_REGION : "eu-west-1"
@@ -26,6 +27,7 @@ permissions:
 jobs:
   FlywayMigration:
     name: Run Flyway Migration
+
     runs-on: ubuntu-20.04
 
     steps:
@@ -51,6 +53,8 @@ jobs:
       with:
         role-to-assume: ${{ env.AWS_IAM_ROLE_ARN }}
         aws-region: ${{ env.AWS_REGION }}
+        audience: sts.amazonaws.com
+        
     - uses: hashicorp/setup-terraform@v3
         
     - name: Terraform Init

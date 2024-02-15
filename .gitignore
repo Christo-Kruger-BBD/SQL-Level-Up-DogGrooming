@@ -15,4 +15,8 @@ tempJira.md
 # Ignore Terraform CLI configurations
 *.terraformrc
 terraform.rc
+<<<<<<< HEAD
 .terraform.lock.*
+=======
+.terraform.lock.*
+>>>>>>> feature/ci-test
