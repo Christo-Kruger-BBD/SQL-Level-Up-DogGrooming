@@ -41,5 +41,5 @@ jobs:
           pip install pyodbc
   
       - name: Run Python script
-        run: database.test.py
+        run: ./tests/database.test.py
   
