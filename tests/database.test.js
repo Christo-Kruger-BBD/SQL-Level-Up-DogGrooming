@@ -36,7 +36,7 @@ describe("MSSQL Database Tests", () => {
       let request = new mssql.Request();
 
       // Query to the database and get the records
-      executeSqlScript('database/migrations/V20240208__Init_Setup.sql', request, done);
+      executeSqlScript('../database/migrations/V20240208__Init_Setup.sql', request, done);
     });
   });
 
