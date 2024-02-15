@@ -43,13 +43,11 @@ def test_database_connection(db_connection):
     assert db_connection is not None, "Database connection is not established"
 
 @pytest.mark.order(2)
-def test_number_of_tables(test_database_connection):
+def test_number_of_tables(db_connection):
 
     current_dir = os.path.dirname(os.path.abspath(__file__))
     sql_script_path = os.path.join(current_dir, '../database/migrations/V1__CreateTables.sql')
     execute_sql_script(conn, sql_script_path)
-
-    db_connection = db_connection()
 
     # Cursor to execute SQL queries
     cursor = db_connection.cursor()
