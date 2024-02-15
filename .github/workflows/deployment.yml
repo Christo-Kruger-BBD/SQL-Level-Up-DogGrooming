@@ -21,7 +21,7 @@ jobs:
           docker run --rm
           --volume ${{ github.workspace }}/database/migrations:/flyway/sql:ro
           redgate/flyway
-          -url=jdbc:sqlserver://"${{ secrets.DB_SERVER_HOST_NAME }}";databaseName="${{ secrets.DB_NAME }}"
+          -url= "${{ secrets.DB_URL }}"
           -user="${{ secrets.DB_USERNAME }}"
           -password="${{ secrets.DB_PASSWORD }}"
           -cleanDisabled=false clean migrate
