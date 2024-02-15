@@ -95,5 +95,11 @@ def test_data_in_all_tables(db_connection):
     # Close the cursor
     cursor.close()
 
+
+    # current_dir = os.path.dirname(os.path.abspath(__file__))
+    # sql_script_path = os.path.join(current_dir, '../database/migrations/V3__TableMethods.sql')
+    # execute_sql_script(conn, sql_script_path)
+
+
 if __name__ == "__main__":
     pytest.main()
