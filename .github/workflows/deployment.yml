@@ -4,12 +4,69 @@ on: [push]
 
 env:
   AWS_REGION : "eu-west-1"
+  AWS_IAM_ROLE_ARN: ${{ secrets.AWS_IAM_ROLE_ARN }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_AMI_XXX: ${{ secrets.AWS_AMI_XXX }}                       # Unimplemented
+  AWS_SG_XXX: ${{ secrets.AWS_SG_XXX }}                         # Unimplemented
+  AWS_SUBNET_XXX: ${{ secrets.AWS_SUBNET_XXX }}                 # Unimplemented
 
+  TF_VAR_db_username: ${{ secrets.DB_NAME }}
+  TF_VAR_db_password: ${{ secrets.DB_PASSWORD }}
+  FW_HOST: ${{ secrets.DB_SERVER_HOST_NAME }}
+  FW_NAME: ${{ secrets.DB_NAME }}
+  FW_USER: ${{ secrets.DB_USERNAME }}
+  FW_PASS: ${{ secrets.DB_PASSWORD }}
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
+  ConfigureAwsAndTerraform:
+    runs-on: ubuntu-latest
 
-  Continuous-Integration-Build:
-    name: Continuous Integration Build
+    steps:
+    - uses: actions/checkout@v2
+    - uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ env.AWS_IAM_ROLE_ARN }}
+        aws-region: ${{ env.AWS_REGION }}
+    - uses: hashicorp/setup-terraform@v3
+        
+    - name: Terraform Init
+      working-directory: 'Infrastructure'
+      run: terraform init
+    
+    # - name: Terraform Validate
+    #   id: validate
+    #   working-directory: 'Infrastructure'
+    #   run: terraform validate
+    
+    - name: Terraform Plan
+      id: plan
+      working-directory: 'Infrastructure'
+      run: terraform plan
+
+        
+    - name: Terraform Apply
+      working-directory: Infrastructure
+      run: terraform apply -auto-approve
+
+  AmazonWebServices:
+    #needs: InfrastructureAsCode
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Launch AWS Server
+      run: |
+        # Use AWS CLI or SDK to launch the server
+        # Example:
+        aws ec2 run-instances --image-id ${{ env.AMI-XXX }} --count 1 --instance-type t2.micro --key-name my-key-pair --security-group-ids ${{ env.SG-XXX }} --subnet-id ${{ env.SUBNET-XXX }}
+        
+  FlywayMigration:
+    name: Run Flyway Migration
+    needs: AmazonWebServices
     runs-on: ubuntu-20.04
 
     steps:
@@ -27,67 +84,14 @@ jobs:
           -password="${{ secrets.DB_PASSWORD }}"
           -cleanDisabled=false clean migrate
 
-  install_dependencies:
-    runs-on: ubuntu-latest
+  UnitTesting:
+    needs: FlywayMigration
+    runs-on: ubuntu-latest  
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-      - name: Install dependencies
-        run: |
-          npm install
-          npm install -g aws-cli
-          npm install mysql2
+    - name: Test Database
+      run: |
+        npm i
+        npm test
 
-  test_database:
-    needs: install_dependencies
-    runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_DATABASE: 'pipelines'
-          MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
-          MYSQL_USER: 'test_user'
-          MYSQL_PASSWORD: 'test_user_password'
-        ports:
-          - 3306:3306
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      - name: Test Database
-        run: |
-          npm install mysql
-          npm test
-
-  AssumeRoleAndCallIdentity:
-    needs: test_database
-    permissions:
-      id-token: write # This is required for requesting the JWT
-      contents: read # This is required for actions/checkout
-    runs-on: ubuntu-latest
-    steps:
-      - name: Git clone the repository
-        uses: actions/checkout@v3
-      - name: configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v1.7.0
-        with:
-          role-to-assume: arn:aws:iam::263883060207:role/GitHubAction-AssumeRoleWithAction
-          #change to reflect your IAM role’s ARN
-          role-session-name: GitHub_to_AWS_via_FederatedOIDC
-          aws-region: ${{ env.AWS_REGION }}
-      # Hello from AWS: WhoAmI
-      - name: Sts GetCallerIdentity
-        run: |
-          aws sts get-caller-identity
-
-
+  
+  
