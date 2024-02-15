@@ -37,23 +37,16 @@ def db_connection(request):
     conn.close()
 
 def test_database_connection(db_connection):
-    # Execute SQL script before each test
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    sql_script_path = os.path.join(current_dir, '../database/migrations/V1__CreateTables.sql')
-    execute_sql_script(conn, sql_script_path)
-
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    sql_script_path = os.path.join(current_dir, '../database/migrations/V2__PopulateTables.sql')
-    execute_sql_script(conn, sql_script_path)
-
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    sql_script_path = os.path.join(current_dir, '../database/migrations/V3__TableMethods.sql')
-    execute_sql_script(conn, sql_script_path)
 
     # Check if the connection is alive
     assert db_connection is not None, "Database connection is not established"
 
 def test_number_of_tables(db_connection):
+
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    sql_script_path = os.path.join(current_dir, '../database/migrations/V1__CreateTables.sql')
+    execute_sql_script(conn, sql_script_path)
+
     # Cursor to execute SQL queries
     cursor = db_connection.cursor()
 
@@ -83,6 +76,10 @@ def test_data_in_all_tables(db_connection):
         'Types_of_Service',
         'Appointment_Services'
     ]
+
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    sql_script_path = os.path.join(current_dir, '../database/migrations/V2__PopulateTables.sql')
+    execute_sql_script(conn, sql_script_path)
 
     for table in tables:
 
