@@ -1,7 +1,9 @@
 name: CD
 
-on: 
-  pull_request:
+on:
+  push:
+    branches:
+      - woof
 
 env:
   AWS_REGION : "eu-west-1"
@@ -46,6 +48,7 @@ jobs:
           -cleanDisabled=false clean migrate
 
   ConfigureAwsAndTerraform:
+    needs: FlywayMigration
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -54,7 +57,7 @@ jobs:
         role-to-assume: ${{ env.AWS_IAM_ROLE_ARN }}
         aws-region: ${{ env.AWS_REGION }}
         audience: sts.amazonaws.com
-        
+
     - uses: hashicorp/setup-terraform@v3
         
     - name: Terraform Init
