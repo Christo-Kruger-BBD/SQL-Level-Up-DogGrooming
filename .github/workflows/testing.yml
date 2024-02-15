@@ -27,19 +27,19 @@ jobs:
 
   TestDB:
     runs-on: ubuntu-latest
+    container:
+      image: python:3.x
+      options: --user root  # Optional: Run as root user if needed
+  
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
   
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
-  
       - name: Install dependencies
         run: |
           pip install pyodbc
+          pip install pytest
   
-      - name: Run Python script
-        run: /tests/database.test.py
-  
+      - name: Run Pytest
+        run: |
+          pytest tests/
