@@ -42,4 +42,6 @@ jobs:
           -p 1433:1433 --name sql1 --hostname sql1 \
           -d \
           mcr.microsoft.com/mssql/server:2022-latest
-          npm test
+          pip install pytest
+          pip install pyodbc
+          py tests/pythonText.py
