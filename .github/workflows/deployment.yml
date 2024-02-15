@@ -27,16 +27,21 @@ jobs:
   FlywayMigration:
     runs-on: ubuntu-latest  
     steps:
-    - name: Continuous Integration Flyway Clean Migrate
-      run: >-
-        docker run --rm
-        --volume ${{ github.workspace }}/database/migrations:/flyway/sql:ro
-        redgate/flyway
-        -licenseKey="${{ secrets.FLYWAY_LICENSE_KEY }}"
-        -url="${{ secrets.DB_URL }}"
-        -user="${{ secrets.DB_USERNAME }}"
-        -password="${{ secrets.DB_PASSWORD }}"
-        -cleanDisabled=false clean migrate
+      - name: Retrieve DB URL and Password from AWS Secrets Manager
+        run: |
+          export DB_URL=$(aws secretsmanager get-secret-value --secret-id dbcreds --query SecretString --output text | jq -r .host)
+          export DB_PASSWORD=$(aws secretsmanager get-secret-value --secret-id dbcreds --query SecretString --output text | jq -r .password)
+          export DB_USER=$(aws secretsmanager get-secret-value --secret-id dbcreds --query SecretString --output text | jq -r .user)
+
+      - name: Continuous Integration Flyway Clean Migrate
+        run: >-
+          docker run --rm
+          --volume ${{ github.workspace }}/database/migrations:/flyway/sql:ro
+          redgate/flyway
+          -url="$DB_URL"
+          -user="$DB_USER"
+          -password="$DB_PASSWORD"
+          -cleanDisabled=false clean migrate
 
   ConfigureAwsAndTerraform:
     needs: FlywayMigration
@@ -49,24 +54,24 @@ jobs:
         aws-region: ${{ env.AWS_REGION }}
     - uses: hashicorp/setup-terraform@v3
         
-    - name: Terraform Init
-      working-directory: 'Infrastructure'
-      run: terraform init
-    
-    # - name: Terraform Validate
-    #   id: validate
+    # - name: Terraform Init
     #   working-directory: 'Infrastructure'
-    #   run: terraform validate
+    #   run: terraform init
     
-    - name: Terraform Plan
-      id: plan
-      working-directory: 'Infrastructure'
-      run: terraform plan
+    # # - name: Terraform Validate
+    # #   id: validate
+    # #   working-directory: 'Infrastructure'
+    # #   run: terraform validate
+    
+    # - name: Terraform Plan
+    #   id: plan
+    #   working-directory: 'Infrastructure'
+    #   run: terraform plan
 
         
-    - name: Terraform Apply
-      working-directory: Infrastructure
-      run: terraform apply -auto-approve
+    # - name: Terraform Apply
+    #   working-directory: Infrastructure
+    #   run: terraform apply -auto-approve
 
   # AmazonWebServices:
   #   needs: ConfigureAwsAndTerraform
