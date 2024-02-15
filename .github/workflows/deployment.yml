@@ -1,9 +1,7 @@
 name: CD
 
-on:
-  push:
-    branches:
-      - woof
+
+on: [push]
 
 env:
   AWS_REGION: "eu-west-1"
