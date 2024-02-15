@@ -15,18 +15,6 @@ resource "aws_subnet" "subnet2" {
   cidr_block = "10.0.128.0/17"
 }
 
-# SQL username
-variable "db-username" {
-  type      = string
-  sensitive = true
-}
-
-# SQL password
-variable "db_password" {
-  type      = string
-  sensitive = true
-}
-
 # Create a security group
 resource "aws_security_group" "example_sg" {
   name        = "example-sg"
