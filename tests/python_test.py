@@ -123,5 +123,34 @@ def test_table_views(db_connection):
     cursor.close()
 
 
+
+def test_table_procs(db_connection):
+    # Cursor to execute SQL queries
+    cursor = db_connection.cursor()
+
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    sql_script_path = os.path.join(current_dir, '../database/migrations/V4__TableProcedures.sql')
+    execute_sql_script(conn, sql_script_path)
+
+    procs = [
+        'add_new_appointment_procedure',
+        'GetAppointmentsByEmployee'
+    ]
+
+    for proc in procs:
+
+    # Execute query to count the number of tables
+        cursor.execute("SELECT * FROM " +  proc)
+
+        # Get the count of tables
+        num_data = cursor.fetchone()[0]
+
+        # Check if there are 7 tables
+        assert num_data > 0, f"Expected data in view {proc}, but found none"
+
+    # Close the cursor
+    cursor.close()
+
+
 if __name__ == "__main__":
     pytest.main()

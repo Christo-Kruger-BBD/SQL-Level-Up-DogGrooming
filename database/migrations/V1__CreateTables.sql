@@ -1,7 +1,7 @@
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Customer_Data')
 BEGIN
     CREATE TABLE Customer_Data (
-        CustomerID INTEGER PRIMARY KEY,
+        CustomerID INTEGER PRIMARY KEY IDENTITY(1,1),
         Name VARCHAR(255),
         Title VARCHAR(255),
         PhoneNumber VARCHAR(255),
@@ -12,7 +12,7 @@ END;
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Employee_Data')
 BEGIN
     CREATE TABLE Employee_Data (
-        EmployeeID INTEGER PRIMARY KEY,
+        EmployeeID INTEGER PRIMARY KEY IDENTITY(1,1),
         Name VARCHAR(255),
         IDNumber VARCHAR(255),
         Phone VARCHAR(255),
@@ -23,7 +23,7 @@ END;
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Pets')
 BEGIN
     CREATE TABLE Pets (
-        PetID INTEGER PRIMARY KEY,
+        PetID INTEGER PRIMARY KEY IDENTITY(1,1),
         CustomerID INTEGER,
         Name VARCHAR(255),
         Breed VARCHAR(255),
@@ -36,7 +36,7 @@ END;
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Appointment')
 BEGIN
     CREATE TABLE Appointment (
-        AppointmentID INTEGER PRIMARY KEY,
+        AppointmentID INTEGER PRIMARY KEY IDENTITY(1,1),
         CustomerID INTEGER,
         PetID INTEGER,
         EmployeeID INTEGER,
@@ -51,7 +51,7 @@ END;
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Payments')
 BEGIN
     CREATE TABLE Payments (
-        PaymentID INTEGER PRIMARY KEY,
+        PaymentID INTEGER PRIMARY KEY IDENTITY(1,1),
         AppointmentID INTEGER,
         Amount DECIMAL,
         DateIssued DATE,
@@ -63,7 +63,7 @@ END;
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Types_of_Service')
 BEGIN
     CREATE TABLE Types_of_Service (
-        ServiceID INTEGER PRIMARY KEY,
+        ServiceID INTEGER PRIMARY KEY IDENTITY(1,1),
         Price DECIMAL,
         ServiceType VARCHAR(255),
         Duration DECIMAL
