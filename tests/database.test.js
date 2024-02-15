@@ -13,7 +13,7 @@ const dbPassword = "ASD123!@#";
 const config = {
   user: dbUser,
   password: dbPassword,
-  server: "localhost",
+  server: "127.0.0.1",
   database: dbName,
   port: 1433,
   options: {
