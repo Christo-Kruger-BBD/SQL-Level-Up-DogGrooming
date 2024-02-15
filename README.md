@@ -2,7 +2,7 @@
  
 ## Description
  
-The Dog Parlour Management System is a software application designed to streamline the management of a dog grooming business. It provides functionality for managing customers, pets, appointments, employees, services, and payments.
+The Doggy Poop Management System is a software application designed to streamline the management of a dog grooming business. It provides functionality for managing customers, pets, appointments, employees, services, and payments.
  
 ## Features
  
