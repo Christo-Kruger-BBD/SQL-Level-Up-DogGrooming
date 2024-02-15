@@ -12,7 +12,7 @@ console.log("dbName ", dbName);
 
 // Create AWS Secrets Manager client
 const secretsManager = new AWS.SecretsManager({
-  region: 'your-aws-region'
+  region: 'eu-west-1'
 });
 
 // Function to retrieve secrets from AWS Secrets Manager
