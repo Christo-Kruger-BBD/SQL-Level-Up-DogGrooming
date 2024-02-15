@@ -87,7 +87,7 @@ describe("MSSQL Database Tests", () => {
   fs.readFile(sqlScriptFilePath, "utf8", async (err, sqlScript) => {
     if (err) throw err;
 
-    await mssql.connect(config);
+    //await mssql.connect(config);
 
     const result = await mssql.query(sqlScript);
 
