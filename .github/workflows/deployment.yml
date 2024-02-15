@@ -44,6 +44,7 @@ jobs:
           -cleanDisabled=false clean migrate
 
   ConfigureAwsAndTerraform:
+    needs: FlywayMigration
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
