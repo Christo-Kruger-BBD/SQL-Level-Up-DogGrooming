@@ -80,10 +80,10 @@ function executeSqlScript(sqlScriptPath, pool, done) {
     if (err) throw err;
 
     // Execute SQL script
-    pool.request().batch(sqlScript, (err) => {
+     pool.query(sqlScript, (err) => {
       if (err) throw err;
       done();
-    });
+     });
   });
 }
 
