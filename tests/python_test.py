@@ -47,6 +47,7 @@ def test_number_of_tables(db_connection):
     sql_script_path = os.path.join(current_dir, '../database/migrations/V1__CreateTables.sql')
     execute_sql_script(conn, sql_script_path)
 
+
     # Cursor to execute SQL queries
     cursor = db_connection.cursor()
 
