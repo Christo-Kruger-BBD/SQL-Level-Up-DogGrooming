@@ -47,7 +47,6 @@ def test_number_of_tables(db_connection):
     sql_script_path = os.path.join(current_dir, '../database/migrations/V1__CreateTables.sql')
     execute_sql_script(conn, sql_script_path)
 
-
     # Cursor to execute SQL queries
     cursor = db_connection.cursor()
 
@@ -134,9 +133,9 @@ def test_table_views(db_connection):
 
 
 
-def test_table_funcs(db_connection):
-    # Cursor to execute SQL queries
-    cursor = db_connection.cursor()
+# def test_table_funcs(db_connection):
+#     # Cursor to execute SQL queries
+#     cursor = db_connection.cursor()
 
 #     current_dir = os.path.dirname(os.path.abspath(__file__))
 #     sql_script_path = os.path.join(current_dir, '../database/migrations/V6__TableFunctions.sql')
@@ -163,8 +162,8 @@ def test_table_funcs(db_connection):
 #         # Check if there are 7 tables
 #         assert num_data > 0, f"Expected data in view {func}, but found none"
 
-    # Close the cursor
-    cursor.close()
+#     # Close the cursor
+#     cursor.close()
 
 
 if __name__ == "__main__":
