@@ -36,7 +36,7 @@ jobs:
           npm install
           npm i mssql
           sudo docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password"  -e "MSSQL_PID=Express" \
-          -p 1433:1433 --restart=always --name sql1 --hostname sql1 \
+          -p 1433:1433 --restart=always --name sql2 --hostname sql1 \
           -d mcr.microsoft.com/mssql/server:2019-latest
           npm test
 
@@ -49,7 +49,7 @@ jobs:
       - name: Run tests PY
         run: |
           sudo docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password"  -e "MSSQL_PID=Express" \
-          -p 1433:1433 --restart=always --name sql1 --hostname sql1 \
+          -p 1433:1433 --restart=always --name sql2 --hostname sql1 \
           -d mcr.microsoft.com/mssql/server:2019-latest
           pip install pytest
           pip install pyodbc
