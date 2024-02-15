@@ -41,11 +41,13 @@ def test_database_connection(db_connection):
     # Check if the connection is alive
     assert db_connection is not None, "Database connection is not established"
 
-def test_number_of_tables(db_connection):
+def test_number_of_tables(test_database_connection):
 
     current_dir = os.path.dirname(os.path.abspath(__file__))
     sql_script_path = os.path.join(current_dir, '../database/migrations/V1__CreateTables.sql')
     execute_sql_script(conn, sql_script_path)
+
+    db_connection = db_connection()
 
     # Cursor to execute SQL queries
     cursor = db_connection.cursor()
@@ -95,7 +97,7 @@ def test_data_in_all_tables(db_connection):
     # Close the cursor
     cursor.close()
 
-def test_table_views(db_connection):
+def test_table_views(test_data_in_all_tables):
     # Cursor to execute SQL queries
     cursor = db_connection.cursor()
 
@@ -133,37 +135,37 @@ def test_table_views(db_connection):
 
 
 
-# def test_table_funcs(db_connection):
-#     # Cursor to execute SQL queries
-#     cursor = db_connection.cursor()
+def test_table_funcs(db_connection):
+    # Cursor to execute SQL queries
+    cursor = db_connection.cursor()
 
-#     current_dir = os.path.dirname(os.path.abspath(__file__))
-#     sql_script_path = os.path.join(current_dir, '../database/migrations/V6__TableFunctions.sql')
-#     execute_sql_script(conn, sql_script_path)
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    sql_script_path = os.path.join(current_dir, '../database/migrations/V6__TableFunctions.sql')
+    execute_sql_script(conn, sql_script_path)
 
-#     current_dir = os.path.dirname(os.path.abspath(__file__))
-#     sql_script_path = os.path.join(current_dir, '../database/migrations/V7__TableFunctions2.sql')
-#     execute_sql_script(conn, sql_script_path)
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    sql_script_path = os.path.join(current_dir, '../database/migrations/V7__TableFunctions2.sql')
+    execute_sql_script(conn, sql_script_path)
     
 
-#     funcs = [
-#         'calculate_total_payment',
-#         'get_appointments_for_customer_function'
-#     ]
+    funcs = [
+        'calculate_total_payment',
+        'get_appointments_for_customer_function'
+    ]
 
-#     for func in funcs:
+    for func in funcs:
 
-#     # Execute query to count the number of tables
-#         cursor.execute("SELECT * FROM " +  func)
+    # Execute query to count the number of tables
+        cursor.execute("SELECT * FROM " +  func)
 
-#         # Get the count of tables
-#         num_data = cursor.fetchone()[0]
+        # Get the count of tables
+        num_data = cursor.fetchone()[0]
 
-#         # Check if there are 7 tables
-#         assert num_data > 0, f"Expected data in view {func}, but found none"
+        # Check if there are 7 tables
+        assert num_data > 0, f"Expected data in view {func}, but found none"
 
-#     # Close the cursor
-#     cursor.close()
+    # Close the cursor
+    cursor.close()
 
 
 if __name__ == "__main__":
