@@ -3,41 +3,34 @@ const fs = require("fs");
 const path = require("path");
 
 const SECONDS = 1000;
-jest.setTimeout(1.5 * SECONDS);
+jest.setTimeout(5 * SECONDS);
 
-const dbHost = process.env.DB_SERVER_HOST_NAME;
-const dbName = process.env.DB_NAME;
-const dbUser = process.env.DB_USERNAME;
-const dbPassword = process.env.DB_PASSWORD;
+const dbName = "tempdb";
+const dbUser = "sa";
+const dbPassword = "yourStrong(%)Password";
 
 // Function to create a MSSQL connection pool
-function getConfig() {
-  return {
-    user: dbUser,
-    password: dbPassword,
-    server: dbHost,
-    database: dbName,
-    options: {
-      trustServerCertificate: true,
-    },
-  };
-}
+const config = {
+  user: dbUser,
+  password: dbPassword,
+  server: "127.0.0.1",
+  database: dbName,
+  port: 1433,
+  options: {
+    trustServerCertificate: true,
+  },
+};
 
 // Test suite for MSSQL database interactions
 describe("MSSQL Database Tests", () => {
-  let pool;
-
-  beforeAll((done) => {
+  let request;
+  beforeAll(async (done) => {
     // Create a connection pool before running tests
-    config = getConfig();
-    mssql.connect(config, function (err) {
-      // Create Request object to perform
-      // query operation
-      let request = new mssql.Request();
+    // const pool = await mssql.connect(config, function (err) {
+    //   // Query to the database and get the records
+    // });
 
-      // Query to the database and get the records
-      executeSqlScript('../database/migrations/V20240208__Init_Setup.sql', request, done);
-    });
+    executeSqlScript("../database/migrations/V20240208__Init_Setup.sql", done);
   });
 
   it("should connect to the MSSQL database", (done) => {
@@ -70,26 +63,41 @@ describe("MSSQL Database Tests", () => {
 
   afterAll((done) => {
     // Close the connection pool after all tests are finished
-    pool.close();
+
     done();
   });
 });
 
-function executeSqlScript(sqlScriptPath, request, done) {
+function executeSqlScript(sqlScriptPath, done) {
   let sqlScriptFilePath = path.join(__dirname, sqlScriptPath);
+  const config = {
+    user: dbUser,
+    password: dbPassword,
+    server: "localhost",
+    database: dbName,
+    options: {
+      database: dbName,
+      trustServerCertificate: true,
+      encrypt: false,
+    },
+  };
 
   // Read SQL script file
-  fs.readFile(sqlScriptFilePath, "utf8", (err, sqlScript) => {
+  fs.readFile(sqlScriptFilePath, "utf8", async (err, sqlScript) => {
     if (err) throw err;
 
-    request.query(sqlScript, function (err, records) {
-      if (err) console.log(err);
+    mssql.connect(config).then(async function () {
+      const result = await mssql.query(sqlScript);
 
-      // Send records as a response
-      // to browser
-      res.send(records);
+      new mssql.query(sqlScript, function (err, records) {
+        if (err) console.log(err);
 
-      done();
+        // Send records as a response
+        // to browser
+        //res.send(records);
+
+        done();
+      });
     });
   });
 }

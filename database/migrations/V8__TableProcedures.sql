@@ -1,4 +1,3 @@
--- Create Stored Procedure:
 CREATE PROCEDURE add_new_appointment_procedure
 	@AppointmentID INT,
     @CustomerID INT,
@@ -22,13 +21,4 @@ BEGIN
     BEGIN
         SELECT 'Invalid input data. Please check the provided IDs.' AS Status;
     END
-END;
-
-CREATE PROCEDURE GetAppointmentsByEmployee
-    @EmployeeID INT
-AS
-BEGIN
-    SELECT * 
-    FROM Appointment
-    WHERE EmployeeID = @EmployeeID;
 END;

@@ -24,25 +24,18 @@ permissions:
   contents: read
 
 jobs:
-
-  TestDB:
+  TestDB_PY:
     runs-on: ubuntu-latest
-    services:
-      mssql:
-        image: mcr.microsoft.com/mssql/server:2019-latest
-        env:
-          SA_PASSWORD: ${{ env.FW_PASS }}
-          ACCEPT_EULA: 'Y'
-        ports:
-          - 1433:1433
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install dependencies
+      - name: Run tests PY
         run: |
-          npm install
-          npm i mssql
-
-      - name: Run tests
-        run: npm test
+          sudo docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(%)Password"  -e "MSSQL_PID=Express" \
+          -p 1433:1433 --restart=always --name sql2 \
+          -d mcr.microsoft.com/mssql/server:2019-latest
+          pip install pytest
+          pip install pytest-order
+          pip install pyodbc
+          pytest tests/
