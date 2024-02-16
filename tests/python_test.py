@@ -43,6 +43,10 @@ def setup_database():
     # Close the connection after all tests are done
     conn.close()
 
+@pytest.fixture(scope="function")
+def db_connection(request, setup_database):
+    yield setup_database
+
 def test_number_of_tables(db_connection):
 
     current_dir = os.path.dirname(os.path.abspath(__file__))
