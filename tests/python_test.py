@@ -18,8 +18,8 @@ def execute_sql_script(conn, script_path):
         cursor.close()
 
 conn = None
-@pytest.fixture(scope="function")
-def db_connection(request):
+@pytest.fixture(scope="session", autouse=True)
+def setup_database():
     global conn
     # Establish a connection to the database
     conn = pyodbc.connect(
@@ -29,7 +29,14 @@ def db_connection(request):
         f"UID={DB_USER};"
         f"PWD={DB_PASSWORD};"
     )
-
+    
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    migration_dir = os.path.join(current_dir, '../database/migrations')
+    migration_files = sorted(file for file in os.listdir(migration_dir) if file.endswith('.sql'))
+    
+    for migration_file in migration_files:
+        migration_file_path = os.path.join(migration_dir, migration_file)
+        execute_sql_script(conn, migration_file_path)
 
     yield conn
 
