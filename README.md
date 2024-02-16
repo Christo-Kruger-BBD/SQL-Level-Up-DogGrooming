@@ -36,11 +36,14 @@ git clone git@github.com:Tshego-MM/SQL-Level-Up-DogGrooming.git
     Navigate to AWS Secrets Manager.
     Locate the secrets containing the hostname, username, and password details for the database.
     Use these details to connect to the database manually from your preferred database management tool or command line interface.
-   
+
+## Functionality
+This database was created to track appointments for customers of Dog Grooming. It stores customer data, pet data, and appointment details such as time of appointment and the type of service.
+More details about the functionality of the database can be found [here](https://dogparlour.atlassian.net/wiki/x/AgBq).
  
- 
- 
- 
-```
- 
-```
+## Team Members
+- Sasha-Lee Kingwill
+- Derryk Fivaz
+- Yashil Luckan
+- Tshegofatso Mohlala
+- Christo Kruger
