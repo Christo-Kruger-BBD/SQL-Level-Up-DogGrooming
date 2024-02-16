@@ -40,6 +40,8 @@ git clone git@github.com:Tshego-MM/SQL-Level-Up-DogGrooming.git
 ## Functionality
 This database was created to track appointments for customers of Dog Grooming. It stores customer data, pet data, and appointment details such as time of appointment and the type of service.
 More details about the functionality of the database can be found [here](https://dogparlour.atlassian.net/wiki/x/AgBq).
+
+A full overview of the ERD of the database can be seen [here](https://dogparlour.atlassian.net/wiki/x/AoAX).
  
 ## Team Members
 - Sasha-Lee Kingwill
