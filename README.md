@@ -1,8 +1,10 @@
 # Dog Parlour Management System
- 
+
 ## Description
  
 The Dog Parlour Management System is a software application designed to streamline the management of a dog grooming business. It provides functionality for managing customers, pets, appointments, employees, services, and payments.
+
+The Confluence for this project can be found [here](https://dogparlour.atlassian.net/wiki/x/-AAJ).
  
 ## Features
  
